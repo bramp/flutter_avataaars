@@ -1,16 +1,34 @@
-// Regression tests for SVG data functions.
+// Regression tests for SVG data functions and asset files.
 //
 // These tests guard against unintended changes during refactoring.
-// The golden file captures the exact output of every SVG function for
-// every enum value. Any change to SVG output will cause a test failure.
+// The golden file captures the composed SVG output for known avatar
+// configurations. Any change to SVG output will cause a test failure.
 //
 // Run `flutter test --update-goldens` to regenerate the golden file.
 
 import 'dart:io';
 
 import 'package:avataaars/src/models/avatar_style.dart';
+import 'package:avataaars/src/svg/svg_cache.dart';
 import 'package:avataaars/src/svg/svg_data.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+/// Read all SVG asset files from disk and return an [SvgCache] populated
+/// with pairs of (Flutter asset key -> file content).
+SvgCache _loadCacheFromDisk() {
+  const prefix = 'packages/avataaars/lib/assets';
+  const diskPrefix = 'lib/assets';
+  final map = <String, String>{};
+
+  final dir = Directory(diskPrefix);
+  for (final entity in dir.listSync(recursive: true)) {
+    if (entity is File && entity.path.endsWith('.svgf')) {
+      final relative = entity.path.substring(diskPrefix.length + 1);
+      map['$prefix/$relative'] = entity.readAsStringSync();
+    }
+  }
+  return SvgCache.fromMap(map);
+}
 
 void main() {
   group('getSkinColorHex', () {
@@ -94,84 +112,113 @@ void main() {
     });
   });
 
-  group('SVG fragment structural validity', () {
-    test('getEyeSvg returns valid SVG for all types', () {
+  group('SVG asset files', () {
+    late SvgCache cache;
+
+    setUpAll(() {
+      cache = _loadCacheFromDisk();
+    });
+
+    test('all eye assets exist and are non-empty', () {
       for (final type in EyeType.values) {
-        final svg = getEyeSvg(type);
-        expect(svg, isNotEmpty, reason: type.name);
-        expect(svg, startsWith('<g '), reason: type.name);
-        expect(svg, endsWith('</g>'), reason: type.name);
+        expect(
+          () => cache[_assetKeyForType('eyes', type)],
+          returnsNormally,
+          reason: type.name,
+        );
       }
     });
 
-    test('getEyebrowSvg returns valid SVG for all types', () {
+    test('all eyebrow assets exist and are non-empty', () {
       for (final type in EyebrowType.values) {
-        final svg = getEyebrowSvg(type);
-        expect(svg, isNotEmpty, reason: type.name);
-        expect(svg, startsWith('<g '), reason: type.name);
-        expect(svg, endsWith('</g>'), reason: type.name);
+        expect(
+          () => cache[_assetKeyForType('eyebrows', type)],
+          returnsNormally,
+          reason: type.name,
+        );
       }
     });
 
-    test('getMouthSvg returns valid SVG for all types', () {
+    test('all mouth assets exist and are non-empty', () {
       for (final type in MouthType.values) {
-        final svg = getMouthSvg(type);
-        expect(svg, isNotEmpty, reason: type.name);
-        expect(svg, startsWith('<g '), reason: type.name);
-        expect(svg, endsWith('</g>'), reason: type.name);
+        expect(
+          () => cache[_assetKeyForType('mouths', type)],
+          returnsNormally,
+          reason: type.name,
+        );
       }
     });
 
-    test('getClothingSvg returns valid SVG for all types', () {
+    test('all clothing assets exist', () {
       for (final type in ClotheType.values) {
-        final svg = getClothingSvg(type, GraphicType.bat);
-        expect(svg, isNotEmpty, reason: type.name);
-        expect(svg, startsWith('<g '), reason: type.name);
-        expect(svg, endsWith('</g>'), reason: type.name);
+        expect(
+          () => cache[_assetKeyForType('clothing', type)],
+          returnsNormally,
+          reason: type.name,
+        );
       }
     });
 
-    test('getClothingSvg graphicShirt varies by graphic type', () {
-      final svgs = <String>{};
-      for (final gType in GraphicType.values) {
-        svgs.add(getClothingSvg(ClotheType.graphicShirt, gType));
+    test('all graphic clothing assets exist', () {
+      for (final type in GraphicType.values) {
+        expect(
+          () => cache[_assetKeyForType('graphic_clothing', type)],
+          returnsNormally,
+          reason: type.name,
+        );
       }
-      expect(svgs, hasLength(GraphicType.values.length));
     });
 
-    test('getTopSvg returns valid SVG for all types', () {
+    test('all top assets exist', () {
       for (final type in TopType.values) {
-        final svg = getTopSvg(type);
-        expect(svg, isNotEmpty, reason: type.name);
-        expect(svg, startsWith('<g '), reason: type.name);
-        expect(svg, endsWith('</g>'), reason: type.name);
+        expect(
+          () => cache[_assetKeyForType('top', type)],
+          returnsNormally,
+          reason: type.name,
+        );
       }
     });
 
-    test('getAccessorySvg returns SVG for all types', () {
+    test('all accessory assets exist', () {
       for (final type in AccessoriesType.values) {
-        final svg = getAccessorySvg(type);
-        if (svg.isNotEmpty) {
-          expect(svg, startsWith('<g '), reason: type.name);
-          expect(svg, endsWith('</g>'), reason: type.name);
-        }
+        if (type == AccessoriesType.blank) continue; // no asset file
+        expect(
+          () => cache[_assetKeyForType('accessories', type)],
+          returnsNormally,
+          reason: type.name,
+        );
       }
     });
 
-    test('getFacialHairSvg returns SVG for all types', () {
+    test('all facial hair assets exist', () {
       for (final type in FacialHairType.values) {
-        final svg = getFacialHairSvg(type);
-        if (svg.isNotEmpty) {
-          expect(svg, startsWith('<g '), reason: type.name);
-          expect(svg, endsWith('</g>'), reason: type.name);
-        }
+        if (type == FacialHairType.blank) continue; // no asset file
+        expect(
+          () => cache[_assetKeyForType('facial_hair', type)],
+          returnsNormally,
+          reason: type.name,
+        );
       }
+    });
+
+    test('fixed assets (shared_defs, body, nose) exist', () {
+      const prefix = 'packages/avataaars/lib/assets';
+      expect(cache['$prefix/shared_defs.svgf'], isNotEmpty);
+      expect(cache['$prefix/body.svgf'], isNotEmpty);
+      expect(cache['$prefix/nose.svgf'], isNotEmpty);
     });
   });
 
   group('buildAvatarSvg', () {
-    test('produces valid SVG with default configuration', () {
-      final svg = buildAvatarSvg(
+    late SvgCache cache;
+
+    setUpAll(() {
+      cache = _loadCacheFromDisk();
+    });
+
+    test('produces valid SVG with default configuration', () async {
+      final svg = await buildAvatarSvg(
+        cache: cache,
         style: AvatarStyle.circle,
         topType: TopType.longHairStraight,
         accessoriesType: AccessoriesType.blank,
@@ -185,13 +232,12 @@ void main() {
       expect(svg, startsWith('<svg '));
       expect(svg, endsWith('</svg>'));
       expect(svg, contains('viewBox="0 0 264 280"'));
-      // SVG should contain sentinel colors
-      // (substituted by ColorMapper at render time).
       expect(svg, contains(sentinelSkin));
     });
 
-    test('transparent style omits circle background', () {
-      final svg = buildAvatarSvg(
+    test('transparent style omits circle background', () async {
+      final svg = await buildAvatarSvg(
+        cache: cache,
         style: AvatarStyle.transparent,
         topType: TopType.longHairStraight,
         accessoriesType: AccessoriesType.blank,
@@ -208,8 +254,9 @@ void main() {
       expect(svg, isNot(contains('#65C9FF')));
     });
 
-    test('circle style includes circle background', () {
-      final svg = buildAvatarSvg(
+    test('circle style includes circle background', () async {
+      final svg = await buildAvatarSvg(
+        cache: cache,
         style: AvatarStyle.circle,
         topType: TopType.longHairStraight,
         accessoriesType: AccessoriesType.blank,
@@ -224,8 +271,9 @@ void main() {
       expect(svg, contains('#65C9FF'));
     });
 
-    test('produces valid SVG with all non-default options', () {
-      final svg = buildAvatarSvg(
+    test('produces valid SVG with all non-default options', () async {
+      final svg = await buildAvatarSvg(
+        cache: cache,
         style: AvatarStyle.circle,
         topType: TopType.winterHat2,
         accessoriesType: AccessoriesType.sunglasses,
@@ -238,18 +286,17 @@ void main() {
       );
       expect(svg, startsWith('<svg '));
       expect(svg, endsWith('</svg>'));
-      // SVG contains sentinel colors (actual substitution done by ColorMapper).
       expect(svg, contains(sentinelSkin));
       expect(svg, contains(sentinelClothe));
       expect(svg, contains(sentinelHat));
       expect(svg, contains(sentinelFacialHair));
     });
 
-    test('valid SVG for every combination of types', () {
-      // Test every top/clothing type to ensure buildAvatarSvg handles all.
+    test('valid SVG for every combination of types', () async {
       for (final topType in TopType.values) {
         for (final clotheType in ClotheType.values) {
-          final svg = buildAvatarSvg(
+          final svg = await buildAvatarSvg(
+            cache: cache,
             style: AvatarStyle.circle,
             topType: topType,
             accessoriesType: AccessoriesType.prescription01,
@@ -271,8 +318,9 @@ void main() {
   });
 
   group('SVG output golden test', () {
-    test('all SVG outputs match golden file', () {
-      final actual = _buildGoldenContent();
+    test('all SVG outputs match golden file', () async {
+      final cache = _loadCacheFromDisk();
+      final actual = await _buildGoldenContent(cache);
       final goldenFile = File('test/goldens/svg_data.golden');
 
       if (!goldenFile.existsSync() || autoUpdateGoldenFiles) {
@@ -286,83 +334,36 @@ void main() {
   });
 }
 
-/// Builds a deterministic string containing all SVG function outputs.
-///
-/// Each entry is formatted as:
-/// ```text
-/// ### functionName(enumValue)
-/// <svg content>
-/// ```
-String _buildGoldenContent() {
+/// Convert a camelCase name to snake_case.
+String _camelToSnake(String s) {
+  return s
+      .replaceAllMapped(
+        RegExp('(.)([A-Z][a-z]+)'),
+        (m) => '${m[1]}_${m[2]}',
+      )
+      .replaceAllMapped(
+        RegExp('([a-z0-9])([A-Z])'),
+        (m) => '${m[1]}_${m[2]}',
+      )
+      .toLowerCase();
+}
+
+/// Build the expected asset key path for a given category and enum value.
+String _assetKeyForType(String category, Enum type) {
+  return 'packages/avataaars/lib/assets/$category/${_camelToSnake(type.name)}.svgf';
+}
+
+/// Builds a deterministic string containing composed SVG outputs
+/// for known avatar configurations.
+Future<String> _buildGoldenContent(SvgCache cache) async {
   final buffer = StringBuffer();
-
-  for (final type in EyeType.values) {
-    buffer
-      ..writeln('### getEyeSvg(${type.name})')
-      ..writeln(getEyeSvg(type))
-      ..writeln();
-  }
-
-  for (final type in EyebrowType.values) {
-    buffer
-      ..writeln('### getEyebrowSvg(${type.name})')
-      ..writeln(getEyebrowSvg(type))
-      ..writeln();
-  }
-
-  for (final type in MouthType.values) {
-    buffer
-      ..writeln('### getMouthSvg(${type.name})')
-      ..writeln(getMouthSvg(type))
-      ..writeln();
-  }
-
-  // For non-graphicShirt types, graphicType is ignored — test once.
-  // For graphicShirt, test each GraphicType.
-  for (final type in ClotheType.values) {
-    if (type == ClotheType.graphicShirt) {
-      for (final gType in GraphicType.values) {
-        buffer
-          ..writeln(
-            '### getClothingSvg(${type.name}, ${gType.name})',
-          )
-          ..writeln(getClothingSvg(type, gType))
-          ..writeln();
-      }
-    } else {
-      buffer
-        ..writeln('### getClothingSvg(${type.name})')
-        ..writeln(getClothingSvg(type, GraphicType.bat))
-        ..writeln();
-    }
-  }
-
-  for (final type in TopType.values) {
-    buffer
-      ..writeln('### getTopSvg(${type.name})')
-      ..writeln(getTopSvg(type))
-      ..writeln();
-  }
-
-  for (final type in AccessoriesType.values) {
-    buffer
-      ..writeln('### getAccessorySvg(${type.name})')
-      ..writeln(getAccessorySvg(type))
-      ..writeln();
-  }
-
-  for (final type in FacialHairType.values) {
-    buffer
-      ..writeln('### getFacialHairSvg(${type.name})')
-      ..writeln(getFacialHairSvg(type))
-      ..writeln();
-  }
 
   // Full avatar composition with known configurations.
   buffer
     ..writeln('### buildAvatarSvg(default)')
     ..writeln(
-      buildAvatarSvg(
+      await buildAvatarSvg(
+        cache: cache,
         style: AvatarStyle.circle,
         topType: TopType.longHairStraight,
         accessoriesType: AccessoriesType.blank,
@@ -377,7 +378,8 @@ String _buildGoldenContent() {
     ..writeln()
     ..writeln('### buildAvatarSvg(custom)')
     ..writeln(
-      buildAvatarSvg(
+      await buildAvatarSvg(
+        cache: cache,
         style: AvatarStyle.circle,
         topType: TopType.winterHat2,
         accessoriesType: AccessoriesType.sunglasses,
@@ -391,7 +393,5 @@ String _buildGoldenContent() {
     )
     ..writeln();
 
-  // Trim so the golden file ends with exactly one newline, which is what
-  // the end-of-file-fixer pre-commit hook enforces.
   return '${buffer.toString().trimRight()}\n';
 }

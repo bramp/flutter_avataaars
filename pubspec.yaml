@@ -15,6 +15,18 @@ dependencies:
     sdk: flutter
   flutter_svg: ^2.2.4
 
+flutter:
+  assets:
+    - lib/assets/
+    - lib/assets/eyes/
+    - lib/assets/eyebrows/
+    - lib/assets/mouths/
+    - lib/assets/clothing/
+    - lib/assets/graphic_clothing/
+    - lib/assets/top/
+    - lib/assets/accessories/
+    - lib/assets/facial_hair/
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

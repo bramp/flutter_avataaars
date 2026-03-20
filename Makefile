@@ -42,3 +42,4 @@ clean:
 generate:
 	cd avataaars-generator && NODE_PATH=./node_modules node ../tools/extract_svg_fragments.js
 	python3 tools/generate_svg_data.py
+	dart format lib/src/svg/svg_data.dart

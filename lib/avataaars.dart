@@ -6,5 +6,6 @@ library;
 
 export 'src/models/avataaar.dart';
 export 'src/models/avatar_style.dart';
+export 'src/svg/svg_cache.dart';
 export 'src/widgets/avatar_color_mapper.dart';
 export 'src/widgets/avatar_widget.dart';
