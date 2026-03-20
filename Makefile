@@ -1,4 +1,4 @@
-.PHONY: all format analyze test test-ci fix clean run generate
+.PHONY: all format analyze test test-ci test-golden test-golden-ci fix clean run generate
 
 # Device to run on: chrome, macos, ios, android (default: chrome)
 DEVICE ?= chrome
@@ -19,15 +19,27 @@ analyze:
 	flutter analyze
 	cd example && flutter analyze
 
-## Run package tests
+## Run package tests (includes golden tests on macOS)
 test:
+ifeq ($(shell uname), Darwin)
 	flutter test
+else
+	flutter test --exclude-tags mac
+endif
 
-## Run tests for CI (injects build info)
+## Run tests for CI (excludes golden/mac tests, injects build info)
 test-ci:
-	flutter test \
+	flutter test --exclude-tags mac \
 		--dart-define=COMMIT_HASH=$$(git rev-parse --short HEAD) \
 		--dart-define=BUILD_DATE="$$(date -u +'%Y-%m-%d %H:%M UTC')"
+
+## Run golden tests (macOS only)
+test-golden:
+	flutter test --tags mac
+
+## Run golden tests for CI (macOS only), updating goldens
+test-golden-ci:
+	flutter test --tags mac
 
 ## Apply auto-fixes
 fix:
