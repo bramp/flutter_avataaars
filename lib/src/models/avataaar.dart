@@ -99,7 +99,8 @@ class Avataaar {
   /// [cache] (or a default if null).
   /// If [colorMapped] is true (the default), color placeholders are replaced
   /// with the avatar's configured colors. If false, the raw SVG is returned
-  /// with sentinel hex values untouched (useful if providing a custom ColorMapper).
+  /// with sentinel hex values untouched (useful if providing a custom
+  /// ColorMapper).
   Future<String> toSvg({SvgCache? cache, bool colorMapped = true}) async {
     var svgStr = await buildAvatarSvg(
       cache: cache,

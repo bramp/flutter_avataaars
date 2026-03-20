@@ -1,8 +1,7 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print // We use print for simple CLI output.
 import 'dart:io';
 
 import 'package:avataaars/avataaars.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 SvgCache _loadCacheFromDisk() {
   const prefix = 'packages/avataaars/lib/assets';
@@ -19,15 +18,13 @@ SvgCache _loadCacheFromDisk() {
   return SvgCache.fromMap(map);
 }
 
-void main() {
-  test('generate random avatar', () async {
-    final cache = _loadCacheFromDisk();
-    final avatar = Avataaar.random();
+void main() async {
+  final cache = _loadCacheFromDisk();
+  final avatar = Avataaar.random();
 
-    final svgStr = await avatar.toSvg(cache: cache);
+  final svgStr = await avatar.toSvg(cache: cache);
 
-    final file = File('random_avatar.svg');
-    await file.writeAsString(svgStr);
-    print('Generated SVG saved to ${file.absolute.path}');
-  });
+  final file = File('random_avatar.svg');
+  await file.writeAsString(svgStr);
+  print('Generated SVG saved to ${file.absolute.path}');
 }

@@ -59,8 +59,9 @@ class AvatarColorMapper extends ColorMapper {
   String applyToString(String svg) {
     String toHex(Color c) {
       return '#${(c.r * 255).round().toRadixString(16).padLeft(2, '0')}'
-             '${(c.g * 255).round().toRadixString(16).padLeft(2, '0')}'
-             '${(c.b * 255).round().toRadixString(16).padLeft(2, '0')}'.toUpperCase();
+          '${(c.g * 255).round().toRadixString(16).padLeft(2, '0')}'
+          '${(c.b * 255).round().toRadixString(16).padLeft(2, '0')}'
+          .toUpperCase();
     }
 
     final replacements = <String, String>{
