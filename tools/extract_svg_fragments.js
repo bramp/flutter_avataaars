@@ -17,17 +17,15 @@ const fs = require("fs");
 const path = require("path");
 
 // ---- Configuration ----
-// We render with known color values so we can replace them with placeholders.
-const SKIN_MARKER = "DarkBrown";  // Valid avataaars skinColor option
-const SKIN_HEX = "#AE5D29";
+// We render with known color values that act as sentinel colors.
+// At runtime, AvatarColorMapper substitutes the actual chosen colors.
+// The sentinel hex values are valid colors, so the output is valid SVG
+// (enabling SVGO, browser preview, etc).
+const SKIN_MARKER = "DarkBrown";
 const HAIR_MARKER = "SilverGray";
-const HAIR_HEX = "#E8E1E1";
 const HAT_MARKER = "Red";
-const HAT_HEX = "#FF5C5C";
 const CLOTHE_MARKER = "Pink";
-const CLOTHE_HEX = "#FF488E";
 const FACIAL_HAIR_MARKER = "Auburn";
-const FACIAL_HAIR_HEX = "#A55728";
 
 function render(props) {
   return ReactDOM.renderToStaticMarkup(React.createElement(Avatar, {
@@ -105,9 +103,7 @@ $base("svg > defs").children().each(function() {
 });
 result.sharedDefs = renumber(sharedDefsHtml, "shared-");
 
-result.body = extractGroup($base, "[id=Body]", "body-", {
-  [SKIN_HEX]: "{{SKIN_COLOR}}",
-});
+result.body = extractGroup($base, "[id=Body]", "body-", {});
 
 result.nose = extractGroup($base, '[id^="Nose/"]', "nose-", {});
 
@@ -156,9 +152,7 @@ for (const ct of clotheTypes) {
   const $ = cheerio.load(svg, { xmlMode: true });
   const clothingGroup = $('[id^="Clothing/"]').first();
   if (clothingGroup.length) {
-    result.clothing[ct] = extractGroup($, '[id^="Clothing/"]', `clothe${ct}-`, {
-      [CLOTHE_HEX]: "{{CLOTHE_COLOR}}",
-    });
+    result.clothing[ct] = extractGroup($, '[id^="Clothing/"]', `clothe${ct}-`, {});
   }
 }
 
@@ -169,9 +163,7 @@ for (const gt of graphicTypes) {
   console.log(`  GraphicShirt+${gt}`);
   const svg = render({ clotheType: "GraphicShirt", graphicType: gt });
   const $ = cheerio.load(svg, { xmlMode: true });
-  result.graphicClothing[gt] = extractGroup($, '[id^="Clothing/"]', `gshirt${gt}-`, {
-    [CLOTHE_HEX]: "{{CLOTHE_COLOR}}",
-  });
+  result.graphicClothing[gt] = extractGroup($, '[id^="Clothing/"]', `gshirt${gt}-`, {});
 }
 
 // 7. Top variants (hair/hats)
@@ -200,15 +192,7 @@ for (const tt of topTypes) {
   const topGroup = $("g[id^='Top']").first();
   if (!topGroup.length) continue;
 
-  const colorReplacements = {
-    [HAIR_HEX]: "{{HAIR_COLOR}}",
-    [SKIN_HEX]: "{{SKIN_COLOR}}",
-  };
-  if (hatTypes.has(tt)) {
-    colorReplacements[HAT_HEX] = "{{HAT_COLOR}}";
-  }
-
-  result.top[tt] = extractGroup($, "g[id^='Top']", `top${tt}-`, colorReplacements);
+  result.top[tt] = extractGroup($, "g[id^='Top']", `top${tt}-`, {});
 }
 
 // 8. Accessory variants
@@ -237,9 +221,7 @@ for (const fh of facialHairTypes) {
 
   const fhEl = $('[id^="Facial-Hair/"]').first();
   if (fhEl.length) {
-    result.facialHair[fh] = extractGroup($, '[id^="Facial-Hair/"]', `fh${fh}-`, {
-      [FACIAL_HAIR_HEX]: "{{FACIAL_HAIR_COLOR}}",
-    });
+    result.facialHair[fh] = extractGroup($, '[id^="Facial-Hair/"]', `fh${fh}-`, {});
   } else {
     result.facialHair[fh] = "";
   }

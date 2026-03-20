@@ -101,11 +101,32 @@ ENUM_MAP = {
 
 lines = []
 
+# Sentinel hex colors: the marker colors used during extraction.
+# These are the actual hex values produced by rendering with known color options.
+# At runtime, AvatarColorMapper maps these to the user's chosen colors.
+# Must match the markers in extract_svg_fragments.js and avatar_color_mapper.dart.
+SENTINEL_SKIN = '#AE5D29'      # DarkBrown
+SENTINEL_HAIR = '#E8E1E1'      # SilverGray
+SENTINEL_HAT = '#FF5C5C'       # Red
+SENTINEL_CLOTHE = '#FF488E'    # Pink
+SENTINEL_FACIAL_HAIR = '#A55728'  # Auburn
+
 # Header
 lines.append("// GENERATED FILE - DO NOT EDIT")
 lines.append("// Generated from avataaars SVG components via React SSR extraction.")
 lines.append("")
 lines.append("import '../models/avatar_style.dart';")
+lines.append("")
+lines.append("/// Sentinel color for skin. Replaced at render time via ColorMapper.")
+lines.append(f"const String sentinelSkin = '{SENTINEL_SKIN}';")
+lines.append("/// Sentinel color for hair. Replaced at render time via ColorMapper.")
+lines.append(f"const String sentinelHair = '{SENTINEL_HAIR}';")
+lines.append("/// Sentinel color for hat. Replaced at render time via ColorMapper.")
+lines.append(f"const String sentinelHat = '{SENTINEL_HAT}';")
+lines.append("/// Sentinel color for clothing. Replaced at render time via ColorMapper.")
+lines.append(f"const String sentinelClothe = '{SENTINEL_CLOTHE}';")
+lines.append("/// Sentinel color for facial hair. Replaced at render time via ColorMapper.")
+lines.append(f"const String sentinelFacialHair = '{SENTINEL_FACIAL_HAIR}';")
 lines.append("")
 
 # Shared defs
@@ -238,42 +259,31 @@ for name in ['Auburn', 'Black', 'Blonde', 'BlondeGolden', 'Brown', 'BrownDark', 
 gen_color_func("getFacialHairColorHex", "FacialHairColor", fh_color_map,
     {'Auburn': 'auburn', 'Black': 'black', 'Blonde': 'blonde', 'BlondeGolden': 'blondeGolden', 'Brown': 'brown', 'BrownDark': 'brownDark', 'Platinum': 'platinum', 'Red': 'red'})
 
-# Main builder function - uses actual Dart string interpolation ($)
+# Main builder function - composes SVG with sentinel colors (no replaceAll).
+# Color substitution is done at render time via AvatarColorMapper.
 lines.append("/// Build a complete avatar SVG string from avatar attributes.")
+lines.append("///")
+lines.append("/// The returned SVG uses sentinel colors for skin, hair, hat, clothing,")
+lines.append("/// and facial hair. Use [AvatarColorMapper] with [SvgStringLoader] to")
+lines.append("/// substitute the actual colors at render time.")
 lines.append("String buildAvatarSvg({")
 lines.append("  required TopType topType,")
 lines.append("  required AccessoriesType accessoriesType,")
-lines.append("  required HairColor hairColor,")
-lines.append("  required HatColor hatColor,")
 lines.append("  required FacialHairType facialHairType,")
-lines.append("  required FacialHairColor facialHairColor,")
 lines.append("  required ClotheType clotheType,")
-lines.append("  required ClotheColor clotheColor,")
 lines.append("  required GraphicType graphicType,")
 lines.append("  required EyeType eyeType,")
 lines.append("  required EyebrowType eyebrowType,")
 lines.append("  required MouthType mouthType,")
-lines.append("  required SkinColor skinColor,")
 lines.append("}) {")
-lines.append("  final skinHex = getSkinColorHex(skinColor);")
-lines.append("  final hairHex = getHairColorHex(hairColor);")
-lines.append("  final hatHex = getHatColorHex(hatColor);")
-lines.append("  final clotheHex = getClotheColorHex(clotheColor);")
-lines.append("  final facialHairHex = getFacialHairColorHex(facialHairColor);")
-lines.append("")
 lines.append("  final eyeSvg = getEyeSvg(eyeType);")
 lines.append("  final eyebrowSvg = getEyebrowSvg(eyebrowType);")
 lines.append("  final mouthSvg = getMouthSvg(mouthType);")
-lines.append("  var clothingSvg = getClothingSvg(clotheType, graphicType)")
-lines.append("      .replaceAll('{{CLOTHE_COLOR}}', clotheHex);")
+lines.append("  final clothingSvg = getClothingSvg(clotheType, graphicType);")
 lines.append("")
-lines.append("  var topSvg = getTopSvg(topType)")
-lines.append("      .replaceAll('{{HAIR_COLOR}}', hairHex)")
-lines.append("      .replaceAll('{{HAT_COLOR}}', hatHex)")
-lines.append("      .replaceAll('{{SKIN_COLOR}}', skinHex);")
+lines.append("  var topSvg = getTopSvg(topType);")
 lines.append("  final accSvg = getAccessorySvg(accessoriesType);")
-lines.append("  var fhSvg = getFacialHairSvg(facialHairType)")
-lines.append("      .replaceAll('{{FACIAL_HAIR_COLOR}}', facialHairHex);")
+lines.append("  final fhSvg = getFacialHairSvg(facialHairType);")
 lines.append("")
 lines.append("  // Insert accessories and facial hair before the last </g> of top")
 lines.append("  if (accSvg.isNotEmpty || fhSvg.isNotEmpty) {")
@@ -282,8 +292,6 @@ lines.append("    if (lastClose >= 0) {")
 lines.append("      topSvg = '${topSvg.substring(0, lastClose)}$accSvg$fhSvg${topSvg.substring(lastClose)}';")
 lines.append("    }")
 lines.append("  }")
-lines.append("")
-lines.append("  final bodySvg = _bodyGroup.replaceAll('{{SKIN_COLOR}}', skinHex);")
 lines.append("")
 lines.append("  return '<svg viewBox=\"0 0 264 280\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">'")
 lines.append("    '<defs>$_sharedDefs</defs>'")
@@ -296,7 +304,7 @@ lines.append("    '<g mask=\"url(#mask-bg)\" fill=\"#65C9FF\"><rect x=\"0\" y=\"
 lines.append("    '</g>'")
 lines.append("    '<mask id=\"mask-clip\" fill=\"white\"><use xlink:href=\"#shared-path-2\"/></mask>'")
 lines.append("    '<g mask=\"url(#mask-clip)\">'")
-lines.append("    '$bodySvg'")
+lines.append("    '$_bodyGroup'")
 lines.append("    '$clothingSvg'")
 lines.append("    '<g transform=\"translate(76, 82)\" fill=\"#000000\">'")
 lines.append("    '$mouthSvg'")

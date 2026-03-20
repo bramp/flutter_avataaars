@@ -174,76 +174,57 @@ void main() {
       final svg = buildAvatarSvg(
         topType: TopType.longHairStraight,
         accessoriesType: AccessoriesType.blank,
-        hairColor: HairColor.brownDark,
-        hatColor: HatColor.gray01,
         facialHairType: FacialHairType.blank,
-        facialHairColor: FacialHairColor.brownDark,
         clotheType: ClotheType.shirtCrewNeck,
-        clotheColor: ClotheColor.gray01,
         graphicType: GraphicType.bat,
         eyeType: EyeType.defaultEye,
         eyebrowType: EyebrowType.defaultBrow,
         mouthType: MouthType.defaultMouth,
-        skinColor: SkinColor.light,
       );
       expect(svg, startsWith('<svg '));
       expect(svg, endsWith('</svg>'));
       expect(svg, contains('viewBox="0 0 264 280"'));
-      // No unreplaced placeholders.
-      expect(svg, isNot(contains('{{')));
-      expect(svg, isNot(contains('}}')));
+      // SVG should contain sentinel colors (substituted by ColorMapper at render time).
+      expect(svg, contains(sentinelSkin));
     });
 
     test('produces valid SVG with all non-default options', () {
       final svg = buildAvatarSvg(
         topType: TopType.winterHat2,
         accessoriesType: AccessoriesType.sunglasses,
-        hairColor: HairColor.red,
-        hatColor: HatColor.pink,
         facialHairType: FacialHairType.beardMajestic,
-        facialHairColor: FacialHairColor.auburn,
         clotheType: ClotheType.graphicShirt,
-        clotheColor: ClotheColor.blue03,
         graphicType: GraphicType.pizza,
         eyeType: EyeType.hearts,
         eyebrowType: EyebrowType.raisedExcitedNatural,
         mouthType: MouthType.smile,
-        skinColor: SkinColor.darkBrown,
       );
       expect(svg, startsWith('<svg '));
       expect(svg, endsWith('</svg>'));
-      // Check color substitutions happened.
-      expect(svg, contains('#AE5D29')); // darkBrown skin
-      expect(svg, contains('#25557C')); // blue03 clothe
-      expect(svg, contains('#FF488E')); // pink hat
-      expect(svg, contains('#A55728')); // auburn facial hair
-      expect(svg, isNot(contains('{{')));
-      expect(svg, isNot(contains('}}')));
+      // SVG contains sentinel colors (actual substitution done by ColorMapper).
+      expect(svg, contains(sentinelSkin));
+      expect(svg, contains(sentinelClothe));
+      expect(svg, contains(sentinelHat));
+      expect(svg, contains(sentinelFacialHair));
     });
 
-    test('no unreplaced placeholders for every combination of types', () {
-      // Test every top/clothing/accessory/facial-hair type to ensure
-      // buildAvatarSvg handles all of them without leaving placeholders.
+    test('valid SVG for every combination of types', () {
+      // Test every top/clothing type to ensure buildAvatarSvg handles all.
       for (final topType in TopType.values) {
         for (final clotheType in ClotheType.values) {
           final svg = buildAvatarSvg(
             topType: topType,
             accessoriesType: AccessoriesType.prescription01,
-            hairColor: HairColor.auburn,
-            hatColor: HatColor.red,
             facialHairType: FacialHairType.beardMedium,
-            facialHairColor: FacialHairColor.black,
             clotheType: clotheType,
-            clotheColor: ClotheColor.blue01,
             graphicType: GraphicType.diamond,
             eyeType: EyeType.happy,
             eyebrowType: EyebrowType.defaultNatural,
             mouthType: MouthType.smile,
-            skinColor: SkinColor.pale,
           );
           expect(
             svg,
-            isNot(contains('{{')),
+            startsWith('<svg '),
             reason: 'top=${topType.name} clothe=${clotheType.name}',
           );
         }
@@ -334,17 +315,12 @@ String _buildGoldenContent() {
   buffer.writeln(buildAvatarSvg(
     topType: TopType.longHairStraight,
     accessoriesType: AccessoriesType.blank,
-    hairColor: HairColor.brownDark,
-    hatColor: HatColor.gray01,
     facialHairType: FacialHairType.blank,
-    facialHairColor: FacialHairColor.brownDark,
     clotheType: ClotheType.shirtCrewNeck,
-    clotheColor: ClotheColor.gray01,
     graphicType: GraphicType.bat,
     eyeType: EyeType.defaultEye,
     eyebrowType: EyebrowType.defaultBrow,
     mouthType: MouthType.defaultMouth,
-    skinColor: SkinColor.light,
   ));
   buffer.writeln();
 
@@ -352,17 +328,12 @@ String _buildGoldenContent() {
   buffer.writeln(buildAvatarSvg(
     topType: TopType.winterHat2,
     accessoriesType: AccessoriesType.sunglasses,
-    hairColor: HairColor.red,
-    hatColor: HatColor.pink,
     facialHairType: FacialHairType.beardMajestic,
-    facialHairColor: FacialHairColor.auburn,
     clotheType: ClotheType.graphicShirt,
-    clotheColor: ClotheColor.blue03,
     graphicType: GraphicType.pizza,
     eyeType: EyeType.hearts,
     eyebrowType: EyebrowType.raisedExcitedNatural,
     mouthType: MouthType.smile,
-    skinColor: SkinColor.darkBrown,
   ));
   buffer.writeln();
 
