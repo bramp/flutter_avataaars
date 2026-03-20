@@ -183,6 +183,12 @@ const topTypes = [
 
 const hatTypes = new Set(["Hat", "Hijab", "Turban", "WinterHat1", "WinterHat2", "WinterHat3", "WinterHat4"]);
 
+// LongHairShavedSides uses hardcoded hair colors instead of the dynamic
+// HairColor component. Replace the lighter fringe with the hair sentinel
+// (main color) and keep the darker body as a "hair shadow" sentinel that
+// ColorMapper will darken by 20% at runtime.
+const SHAVED_SIDES_HAIR_FIXES = { '#E0C863': '#E8E1E1', '#CCB55A': '#CCB55A' };
+
 result.top = {};
 for (const tt of topTypes) {
   console.log(`  Top: ${tt}`);
@@ -192,7 +198,8 @@ for (const tt of topTypes) {
   const topGroup = $("g[id^='Top']").first();
   if (!topGroup.length) continue;
 
-  result.top[tt] = extractGroup($, "g[id^='Top']", `top${tt}-`, {});
+  const colorFixes = tt === 'LongHairShavedSides' ? SHAVED_SIDES_HAIR_FIXES : {};
+  result.top[tt] = extractGroup($, "g[id^='Top']", `top${tt}-`, colorFixes);
 }
 
 // 8. Accessory variants

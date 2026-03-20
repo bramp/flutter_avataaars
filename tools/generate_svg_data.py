@@ -107,6 +107,7 @@ lines = []
 # Must match the markers in extract_svg_fragments.js and avatar_color_mapper.dart.
 SENTINEL_SKIN = '#AE5D29'      # DarkBrown
 SENTINEL_HAIR = '#E8E1E1'      # SilverGray
+SENTINEL_HAIR_SHADOW = '#CCB55A'  # LongHairShavedSides body (darkened 20%)
 SENTINEL_HAT = '#FF5C5C'       # Red
 SENTINEL_CLOTHE = '#FF488E'    # Pink
 SENTINEL_FACIAL_HAIR = '#A55728'  # Auburn
@@ -121,6 +122,8 @@ lines.append("/// Sentinel color for skin. Replaced at render time via ColorMapp
 lines.append(f"const String sentinelSkin = '{SENTINEL_SKIN}';")
 lines.append("/// Sentinel color for hair. Replaced at render time via ColorMapper.")
 lines.append(f"const String sentinelHair = '{SENTINEL_HAIR}';")
+lines.append("/// Sentinel color for hair shadow (20% darker). Used by LongHairShavedSides.")
+lines.append(f"const String sentinelHairShadow = '{SENTINEL_HAIR_SHADOW}';")
 lines.append("/// Sentinel color for hat. Replaced at render time via ColorMapper.")
 lines.append(f"const String sentinelHat = '{SENTINEL_HAT}';")
 lines.append("/// Sentinel color for clothing. Replaced at render time via ColorMapper.")

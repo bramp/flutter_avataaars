@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 // Must match the markers in extract_svg_fragments.js.
 const Color _skinSentinel = Color(0xFFAE5D29); // DarkBrown
 const Color _hairSentinel = Color(0xFFE8E1E1); // SilverGray
+const Color _hairShadowSentinel = Color(0xFFCCB55A); // LongHairShavedSides body
 const Color _hatSentinel = Color(0xFFFF5C5C); // Red
 const Color _clotheSentinel = Color(0xFFFF488E); // Pink
 const Color _facialHairSentinel = Color(0xFFA55728); // Auburn
@@ -73,6 +74,7 @@ class AvatarColorMapper extends ColorMapper {
   ) {
     if (color == _skinSentinel) return skinColor;
     if (color == _hairSentinel) return hairColor;
+    if (color == _hairShadowSentinel) return _darken(hairColor, 0.20);
     if (color == _hatSentinel) return hatColor;
     if (color == _clotheSentinel) return clotheColor;
     if (color == _facialHairSentinel) return facialHairColor;
@@ -97,6 +99,14 @@ class AvatarColorMapper extends ColorMapper {
         clotheColor,
         facialHairColor,
       );
+
+  /// Darkens a color by reducing its RGB components by [amount] (0.0–1.0).
+  static Color _darken(Color color, double amount) {
+    final r = (color.r * (1 - amount)).clamp(0.0, 1.0);
+    final g = (color.g * (1 - amount)).clamp(0.0, 1.0);
+    final b = (color.b * (1 - amount)).clamp(0.0, 1.0);
+    return Color.from(alpha: color.a, red: r, green: g, blue: b);
+  }
 
   static Color _parseHex(String hex) {
     final value = int.parse(hex.substring(1), radix: 16);
