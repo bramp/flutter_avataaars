@@ -1,17 +1,79 @@
-# avataaars
+# Flutter Avataaars
 
-A new Flutter project.
+A Flutter widget that renders [avataaars](https://getavataaars.com/)-style avatars using `flutter_svg`. All SVG data is extracted from the original React [avataaars](https://github.com/fangpenlin/avataaars) library via server-side rendering, ensuring pixel-perfect fidelity.
 
-## Getting Started
+## Usage
 
-This project is a starting point for a Flutter application.
+```dart
+import 'package:avataaars/models/avataaar.dart';
+import 'package:avataaars/widgets/avatar_widget.dart';
 
-A few resources to get you started if this is your first Flutter project:
+// Random avatar
+AvatarWidget(avatar: Avataaar.random())
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+// Specific avatar
+AvatarWidget(
+  avatar: Avataaar(
+    topType: TopType.shortHairShortFlat,
+    accessoriesType: AccessoriesType.prescription01,
+    hairColor: HairColor.brown,
+    facialHairType: FacialHairType.blank,
+    clotheType: ClotheType.hoodie,
+    clotheColor: ClotheColor.blue01,
+    eyeType: EyeType.defaultEye,
+    eyebrowType: EyebrowType.defaultBrow,
+    mouthType: MouthType.smile,
+    skinColor: SkinColor.light,
+  ),
+)
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Regenerating SVG Data
+
+The SVG fragments in `lib/svg/svg_data.dart` are generated from the original React avataaars library. To regenerate after changes:
+
+### Prerequisites
+
+- Node.js
+- Python 3
+- The `avataaars-generator` submodule checked out
+
+### Steps
+
+```bash
+# 1. Clone with submodules (if not already done)
+git submodule update --init
+
+# 2. Install dependencies in the React project
+cd avataaars-generator
+npm install
+npm install cheerio --no-save --legacy-peer-deps
+
+# 3. Extract SVG fragments from the React components
+NODE_PATH=./node_modules node ../tools/extract_svg_fragments.js
+
+# 4. Generate the Dart file from the extracted fragments
+cd ..
+python3 tools/generate_svg_data.py
+```
+
+This produces `lib/svg/svg_data.dart` containing all SVG path data and the `buildAvatarSvg()` builder function.
+
+### How it works
+
+1. **`tools/extract_svg_fragments.js`** — Uses `ReactDOMServer.renderToStaticMarkup()` to render each avatar variant, then parses the SVG with `cheerio` to extract individual component groups (eyes, mouths, hair, etc.). Color values are replaced with placeholders like `{{SKIN_COLOR}}`. Output: `tools/svg_fragments.json`.
+
+2. **`tools/generate_svg_data.py`** — Reads the JSON fragments and generates a Dart file with lookup functions for each component type and a `buildAvatarSvg()` function that composes the full SVG at runtime.
+
+## Running
+
+```bash
+flutter pub get
+flutter run
+```
+
+## Testing
+
+```bash
+flutter test
+```
