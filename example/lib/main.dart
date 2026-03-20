@@ -46,13 +46,6 @@ class _AvataaarsPageState extends State<AvataaarsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Avataaars Generator'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.shuffle),
-            tooltip: 'Random',
-            onPressed: _randomize,
-          ),
-        ],
       ),
       body: isWide ? _buildWideLayout() : _buildNarrowLayout(),
     );
@@ -63,7 +56,18 @@ class _AvataaarsPageState extends State<AvataaarsPage> {
       children: [
         Expanded(
           child: Center(
-            child: AvatarWidget(avatar: _avatar, size: 300),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AvatarWidget(avatar: _avatar, size: 300),
+                const SizedBox(height: 16),
+                FilledButton.tonalIcon(
+                  onPressed: _randomize,
+                  icon: const Icon(Icons.shuffle),
+                  label: const Text('Random'),
+                ),
+              ],
+            ),
           ),
         ),
         SizedBox(
@@ -83,7 +87,18 @@ class _AvataaarsPageState extends State<AvataaarsPage> {
         Padding(
           padding: const EdgeInsets.all(16),
           child: Center(
-            child: AvatarWidget(avatar: _avatar, size: 200),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AvatarWidget(avatar: _avatar, size: 200),
+                const SizedBox(height: 12),
+                FilledButton.tonalIcon(
+                  onPressed: _randomize,
+                  icon: const Icon(Icons.shuffle),
+                  label: const Text('Random'),
+                ),
+              ],
+            ),
           ),
         ),
         Expanded(
