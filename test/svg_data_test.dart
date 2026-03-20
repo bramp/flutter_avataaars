@@ -98,36 +98,36 @@ void main() {
     test('getEyeSvg returns valid SVG for all types', () {
       for (final type in EyeType.values) {
         final svg = getEyeSvg(type);
-        expect(svg, isNotEmpty, reason: '${type.name}');
-        expect(svg, startsWith('<g '), reason: '${type.name}');
-        expect(svg, endsWith('</g>'), reason: '${type.name}');
+        expect(svg, isNotEmpty, reason: type.name);
+        expect(svg, startsWith('<g '), reason: type.name);
+        expect(svg, endsWith('</g>'), reason: type.name);
       }
     });
 
     test('getEyebrowSvg returns valid SVG for all types', () {
       for (final type in EyebrowType.values) {
         final svg = getEyebrowSvg(type);
-        expect(svg, isNotEmpty, reason: '${type.name}');
-        expect(svg, startsWith('<g '), reason: '${type.name}');
-        expect(svg, endsWith('</g>'), reason: '${type.name}');
+        expect(svg, isNotEmpty, reason: type.name);
+        expect(svg, startsWith('<g '), reason: type.name);
+        expect(svg, endsWith('</g>'), reason: type.name);
       }
     });
 
     test('getMouthSvg returns valid SVG for all types', () {
       for (final type in MouthType.values) {
         final svg = getMouthSvg(type);
-        expect(svg, isNotEmpty, reason: '${type.name}');
-        expect(svg, startsWith('<g '), reason: '${type.name}');
-        expect(svg, endsWith('</g>'), reason: '${type.name}');
+        expect(svg, isNotEmpty, reason: type.name);
+        expect(svg, startsWith('<g '), reason: type.name);
+        expect(svg, endsWith('</g>'), reason: type.name);
       }
     });
 
     test('getClothingSvg returns valid SVG for all types', () {
       for (final type in ClotheType.values) {
         final svg = getClothingSvg(type, GraphicType.bat);
-        expect(svg, isNotEmpty, reason: '${type.name}');
-        expect(svg, startsWith('<g '), reason: '${type.name}');
-        expect(svg, endsWith('</g>'), reason: '${type.name}');
+        expect(svg, isNotEmpty, reason: type.name);
+        expect(svg, startsWith('<g '), reason: type.name);
+        expect(svg, endsWith('</g>'), reason: type.name);
       }
     });
 
@@ -142,9 +142,9 @@ void main() {
     test('getTopSvg returns valid SVG for all types', () {
       for (final type in TopType.values) {
         final svg = getTopSvg(type);
-        expect(svg, isNotEmpty, reason: '${type.name}');
-        expect(svg, startsWith('<g '), reason: '${type.name}');
-        expect(svg, endsWith('</g>'), reason: '${type.name}');
+        expect(svg, isNotEmpty, reason: type.name);
+        expect(svg, startsWith('<g '), reason: type.name);
+        expect(svg, endsWith('</g>'), reason: type.name);
       }
     });
 
@@ -152,8 +152,8 @@ void main() {
       for (final type in AccessoriesType.values) {
         final svg = getAccessorySvg(type);
         if (svg.isNotEmpty) {
-          expect(svg, startsWith('<g '), reason: '${type.name}');
-          expect(svg, endsWith('</g>'), reason: '${type.name}');
+          expect(svg, startsWith('<g '), reason: type.name);
+          expect(svg, endsWith('</g>'), reason: type.name);
         }
       }
     });
@@ -162,8 +162,8 @@ void main() {
       for (final type in FacialHairType.values) {
         final svg = getFacialHairSvg(type);
         if (svg.isNotEmpty) {
-          expect(svg, startsWith('<g '), reason: '${type.name}');
-          expect(svg, endsWith('</g>'), reason: '${type.name}');
+          expect(svg, startsWith('<g '), reason: type.name);
+          expect(svg, endsWith('</g>'), reason: type.name);
         }
       }
     });
@@ -185,7 +185,8 @@ void main() {
       expect(svg, startsWith('<svg '));
       expect(svg, endsWith('</svg>'));
       expect(svg, contains('viewBox="0 0 264 280"'));
-      // SVG should contain sentinel colors (substituted by ColorMapper at render time).
+      // SVG should contain sentinel colors
+      // (substituted by ColorMapper at render time).
       expect(svg, contains(sentinelSkin));
     });
 
@@ -288,7 +289,7 @@ void main() {
 /// Builds a deterministic string containing all SVG function outputs.
 ///
 /// Each entry is formatted as:
-/// ```
+/// ```text
 /// ### functionName(enumValue)
 /// <svg content>
 /// ```
@@ -296,21 +297,24 @@ String _buildGoldenContent() {
   final buffer = StringBuffer();
 
   for (final type in EyeType.values) {
-    buffer.writeln('### getEyeSvg(${type.name})');
-    buffer.writeln(getEyeSvg(type));
-    buffer.writeln();
+    buffer
+      ..writeln('### getEyeSvg(${type.name})')
+      ..writeln(getEyeSvg(type))
+      ..writeln();
   }
 
   for (final type in EyebrowType.values) {
-    buffer.writeln('### getEyebrowSvg(${type.name})');
-    buffer.writeln(getEyebrowSvg(type));
-    buffer.writeln();
+    buffer
+      ..writeln('### getEyebrowSvg(${type.name})')
+      ..writeln(getEyebrowSvg(type))
+      ..writeln();
   }
 
   for (final type in MouthType.values) {
-    buffer.writeln('### getMouthSvg(${type.name})');
-    buffer.writeln(getMouthSvg(type));
-    buffer.writeln();
+    buffer
+      ..writeln('### getMouthSvg(${type.name})')
+      ..writeln(getMouthSvg(type))
+      ..writeln();
   }
 
   // For non-graphicShirt types, graphicType is ignored — test once.
@@ -318,67 +322,76 @@ String _buildGoldenContent() {
   for (final type in ClotheType.values) {
     if (type == ClotheType.graphicShirt) {
       for (final gType in GraphicType.values) {
-        buffer.writeln('### getClothingSvg(${type.name}, ${gType.name})');
-        buffer.writeln(getClothingSvg(type, gType));
-        buffer.writeln();
+        buffer
+          ..writeln(
+            '### getClothingSvg(${type.name}, ${gType.name})',
+          )
+          ..writeln(getClothingSvg(type, gType))
+          ..writeln();
       }
     } else {
-      buffer.writeln('### getClothingSvg(${type.name})');
-      buffer.writeln(getClothingSvg(type, GraphicType.bat));
-      buffer.writeln();
+      buffer
+        ..writeln('### getClothingSvg(${type.name})')
+        ..writeln(getClothingSvg(type, GraphicType.bat))
+        ..writeln();
     }
   }
 
   for (final type in TopType.values) {
-    buffer.writeln('### getTopSvg(${type.name})');
-    buffer.writeln(getTopSvg(type));
-    buffer.writeln();
+    buffer
+      ..writeln('### getTopSvg(${type.name})')
+      ..writeln(getTopSvg(type))
+      ..writeln();
   }
 
   for (final type in AccessoriesType.values) {
-    buffer.writeln('### getAccessorySvg(${type.name})');
-    buffer.writeln(getAccessorySvg(type));
-    buffer.writeln();
+    buffer
+      ..writeln('### getAccessorySvg(${type.name})')
+      ..writeln(getAccessorySvg(type))
+      ..writeln();
   }
 
   for (final type in FacialHairType.values) {
-    buffer.writeln('### getFacialHairSvg(${type.name})');
-    buffer.writeln(getFacialHairSvg(type));
-    buffer.writeln();
+    buffer
+      ..writeln('### getFacialHairSvg(${type.name})')
+      ..writeln(getFacialHairSvg(type))
+      ..writeln();
   }
 
   // Full avatar composition with known configurations.
-  buffer.writeln('### buildAvatarSvg(default)');
-  buffer.writeln(
-    buildAvatarSvg(
-      style: AvatarStyle.circle,
-      topType: TopType.longHairStraight,
-      accessoriesType: AccessoriesType.blank,
-      facialHairType: FacialHairType.blank,
-      clotheType: ClotheType.shirtCrewNeck,
-      graphicType: GraphicType.bat,
-      eyeType: EyeType.defaultEye,
-      eyebrowType: EyebrowType.defaultBrow,
-      mouthType: MouthType.defaultMouth,
-    ),
-  );
-  buffer.writeln();
+  buffer
+    ..writeln('### buildAvatarSvg(default)')
+    ..writeln(
+      buildAvatarSvg(
+        style: AvatarStyle.circle,
+        topType: TopType.longHairStraight,
+        accessoriesType: AccessoriesType.blank,
+        facialHairType: FacialHairType.blank,
+        clotheType: ClotheType.shirtCrewNeck,
+        graphicType: GraphicType.bat,
+        eyeType: EyeType.defaultEye,
+        eyebrowType: EyebrowType.defaultBrow,
+        mouthType: MouthType.defaultMouth,
+      ),
+    )
+    ..writeln()
+    ..writeln('### buildAvatarSvg(custom)')
+    ..writeln(
+      buildAvatarSvg(
+        style: AvatarStyle.circle,
+        topType: TopType.winterHat2,
+        accessoriesType: AccessoriesType.sunglasses,
+        facialHairType: FacialHairType.beardMajestic,
+        clotheType: ClotheType.graphicShirt,
+        graphicType: GraphicType.pizza,
+        eyeType: EyeType.hearts,
+        eyebrowType: EyebrowType.raisedExcitedNatural,
+        mouthType: MouthType.smile,
+      ),
+    )
+    ..writeln();
 
-  buffer.writeln('### buildAvatarSvg(custom)');
-  buffer.writeln(
-    buildAvatarSvg(
-      style: AvatarStyle.circle,
-      topType: TopType.winterHat2,
-      accessoriesType: AccessoriesType.sunglasses,
-      facialHairType: FacialHairType.beardMajestic,
-      clotheType: ClotheType.graphicShirt,
-      graphicType: GraphicType.pizza,
-      eyeType: EyeType.hearts,
-      eyebrowType: EyebrowType.raisedExcitedNatural,
-      mouthType: MouthType.smile,
-    ),
-  );
-  buffer.writeln();
-
-  return buffer.toString();
+  // Trim so the golden file ends with exactly one newline, which is what
+  // the end-of-file-fixer pre-commit hook enforces.
+  return '${buffer.toString().trimRight()}\n';
 }

@@ -301,7 +301,8 @@ enum FacialHairType {
   /// Human-readable label.
   final String label;
 
-  /// Whether this type has visible facial hair (and thus uses [FacialHairColor]).
+  /// Whether this type has visible facial hair
+  /// (and thus uses [FacialHairColor]).
   bool get hasFacialHair => this != blank;
 }
 
@@ -379,7 +380,8 @@ enum ClotheType {
   /// Whether this clothing type uses [ClotheColor].
   bool get hasClotheColor => this != blazerShirt && this != blazerSweater;
 
-  /// Whether this clothing type displays a graphic (and thus uses [GraphicType]).
+  /// Whether this clothing type displays a graphic
+  /// (and thus uses [GraphicType]).
   bool get hasGraphic => this == graphicShirt;
 }
 

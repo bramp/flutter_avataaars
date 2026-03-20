@@ -451,10 +451,10 @@ String buildAvatarSvg({
 
   final circleBackground = circle
       ? '<g transform="translate(12, 40)">'
-        '<mask id="mask-bg" fill="white"><use xlink:href="#shared-path-1"/></mask>'
-        '<use fill="#E6E6E6" xlink:href="#shared-path-1"/>'
-        '<g mask="url(#mask-bg)" fill="#65C9FF"><rect x="0" y="0" width="240" height="240"/></g>'
-        '</g>'
+            '<mask id="mask-bg" fill="white"><use xlink:href="#shared-path-1"/></mask>'
+            '<use fill="#E6E6E6" xlink:href="#shared-path-1"/>'
+            '<g mask="url(#mask-bg)" fill="#65C9FF"><rect x="0" y="0" width="240" height="240"/></g>'
+            '</g>'
       : '';
 
   final clipMask = circle

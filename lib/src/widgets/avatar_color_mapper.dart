@@ -3,7 +3,9 @@ import 'package:avataaars/src/svg/svg_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-// Sentinel colors: the marker colors baked into SVG fragments during extraction.
+// Sentinel colors: the marker colors baked into SVG fragments
+// during extraction.
+//
 // These are the hex values produced by rendering avataaars with known color
 // options (DarkBrown skin, SilverGray hair, Red hat, Pink clothe, Auburn facial
 // hair). At render time the ColorMapper substitutes the user's actual colors.

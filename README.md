@@ -65,6 +65,24 @@ This produces `lib/svg/svg_data.dart` containing all SVG path data and the `buil
 
 2. **`tools/generate_svg_data.py`** — Reads the JSON fragments and generates a Dart file with lookup functions for each component type and a `buildAvatarSvg()` function that composes the full SVG at runtime.
 
+## Development Setup
+
+This project uses [pre-commit](https://pre-commit.com/) to run formatting, analysis, and tests before each commit. To enable it:
+
+```bash
+# Install pre-commit (if not already installed)
+brew install pre-commit
+
+# Install the git hooks
+pre-commit install
+```
+
+After this, `pre-commit` will run automatically on `git commit`. You can also run it manually:
+
+```bash
+pre-commit run --all-files
+```
+
 ## Running
 
 ```bash
