@@ -1,18 +1,22 @@
+import 'package:avataaars/src/models/avataaar.dart';
+import 'package:avataaars/src/svg/svg_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../models/avataaar.dart';
-import '../svg/svg_data.dart';
 
-/// Renders an Avataaar using SVG.
+/// Renders an [Avataaar] using SVG.
 class AvatarWidget extends StatelessWidget {
-  final Avataaar avatar;
-  final double size;
-
+  /// Creates an [AvatarWidget] that renders the given [avatar].
   const AvatarWidget({
-    super.key,
     required this.avatar,
+    super.key,
     this.size = 264,
   });
+
+  /// The avatar model to render.
+  final Avataaar avatar;
+
+  /// The width of the rendered avatar in logical pixels.
+  final double size;
 
   @override
   Widget build(BuildContext context) {

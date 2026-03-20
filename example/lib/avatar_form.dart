@@ -1,16 +1,20 @@
+import 'package:avataaars/avataaars.dart';
 import 'package:flutter/material.dart';
-import '../models/avataaar.dart';
 
 /// A form that lets users pick each avatar attribute via dropdowns.
 class AvatarForm extends StatelessWidget {
-  final Avataaar avatar;
-  final ValueChanged<Avataaar> onChanged;
-
+  /// Creates an [AvatarForm].
   const AvatarForm({
-    super.key,
     required this.avatar,
     required this.onChanged,
+    super.key,
   });
+
+  /// The current avatar state.
+  final Avataaar avatar;
+
+  /// Called when the user changes any attribute.
+  final ValueChanged<Avataaar> onChanged;
 
   @override
   Widget build(BuildContext context) {

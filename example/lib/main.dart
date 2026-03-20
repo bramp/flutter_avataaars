@@ -1,7 +1,6 @@
+import 'package:avataaars/avataaars.dart';
+import 'package:avataaars_example/avatar_form.dart';
 import 'package:flutter/material.dart';
-import 'models/avataaar.dart';
-import 'widgets/avatar_form.dart';
-import 'widgets/avatar_widget.dart';
 
 void main() {
   runApp(const AvataaarsApp());

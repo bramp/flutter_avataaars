@@ -77,3 +77,11 @@ flutter run
 ```bash
 flutter test
 ```
+
+## Credits
+
+This Flutter library is based on the [avataaars-generator](https://github.com/fangpenlin/avataaars-generator) by [Fang-Pen Lin](https://github.com/fangpenlin), which itself uses the avatar artwork created by [Pablo Stanley](https://getavataaars.com/).
+
+## License
+
+This project is licensed under the BSD License. It is free to use for both commercial and non-commercial purposes. See the [LICENSE](LICENSE) file for details.

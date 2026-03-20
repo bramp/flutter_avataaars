@@ -1,5 +1,6 @@
 # Miscellaneous
 *.class
+.cache/
 *.log
 *.pyc
 *.swp
@@ -30,8 +31,10 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-/build/
-/coverage/
+**/build/
+**/coverage/
+
+devtools_options.yaml
 
 # Symbolication related
 app.*.symbols
@@ -40,9 +43,12 @@ app.*.symbols
 app.*.map.json
 
 # Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+**/android/app/debug
+**/android/app/profile
+**/android/app/release
+
+# Golden test failure artifacts
+**/test/failures/
 
 # Generated intermediate files
 tools/svg_fragments.json

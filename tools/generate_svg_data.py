@@ -13,7 +13,7 @@ import sys
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 json_path = os.path.join(script_dir, 'svg_fragments.json')
-output_path = os.path.join(script_dir, '..', 'lib', 'svg', 'svg_data.dart')
+output_path = os.path.join(script_dir, '..', 'lib', 'src', 'svg', 'svg_data.dart')
 
 with open(json_path, 'r') as f:
     data = json.load(f)
