@@ -2,8 +2,8 @@
 // Generated from avataaars SVG components via React SSR extraction.
 // SVG fragments are stored as asset files under lib/assets/.
 
-import 'package:flutter_avataaars/src/models/avatar_style.dart';
-import 'package:flutter_avataaars/src/svg/svg_cache.dart';
+import 'package:avatar_builder/src/models/avatar_style.dart';
+import 'package:avatar_builder/src/svg/svg_cache.dart';
 
 // Sentinel hex values baked into SVG fragments during extraction.
 // These are the colors produced by rendering avataaars with specific options

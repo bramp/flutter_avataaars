@@ -1,6 +1,6 @@
-import 'package:flutter_avataaars/src/models/avataaar.dart';
-import 'package:flutter_avataaars/src/svg/svg_cache.dart';
-import 'package:flutter_avataaars/src/widgets/avatar_color_mapper.dart';
+import 'package:avatar_builder/src/models/avataaar.dart';
+import 'package:avatar_builder/src/svg/svg_cache.dart';
+import 'package:avatar_builder/src/widgets/avatar_color_mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

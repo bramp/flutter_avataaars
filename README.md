@@ -1,15 +1,15 @@
-# Flutter Avataaars
+# Avatar Builder
 
 A Flutter widget that renders customizable [avataaars](https://getavataaars.com/)-style cartoon avatars. Choose from 34 hairstyles, 12 eye styles, 13 eyebrow styles, 12 mouth styles, 9 clothing options, and more — or generate a random avatar with a single line of code.
 
-[![pub package](https://img.shields.io/pub/v/flutter_avataaars.svg)](https://pub.dev/packages/flutter_avataaars)
-[![License](https://img.shields.io/github/license/bramp/flutter_avataaars)](https://github.com/bramp/flutter_avataaars/blob/main/LICENSE)
+[![pub package](https://img.shields.io/pub/v/avatar_builder.svg)](https://pub.dev/packages/avatar_builder)
+[![License](https://img.shields.io/github/license/bramp/avatar_builder)](https://github.com/bramp/avatar_builder/blob/main/LICENSE)
 
 | | | | | |
 |---|---|---|---|---|
-| ![avatar 1](https://raw.githubusercontent.com/bramp/flutter_avataaars/main/test/goldens/avatars/style_circle.png) | ![avatar 2](https://raw.githubusercontent.com/bramp/flutter_avataaars/main/test/goldens/avatars/top_longHairCurvy.png) | ![avatar 3](https://raw.githubusercontent.com/bramp/flutter_avataaars/main/test/goldens/avatars/top_shortHairShortCurly.png) | ![avatar 4](https://raw.githubusercontent.com/bramp/flutter_avataaars/main/test/goldens/avatars/top_longHairMiaWallace.png) | ![avatar 5](https://raw.githubusercontent.com/bramp/flutter_avataaars/main/test/goldens/avatars/top_longHairBun.png) |
+| ![avatar 1](https://raw.githubusercontent.com/bramp/avatar_builder/main/test/goldens/avatars/style_circle.png) | ![avatar 2](https://raw.githubusercontent.com/bramp/avatar_builder/main/test/goldens/avatars/top_longHairCurvy.png) | ![avatar 3](https://raw.githubusercontent.com/bramp/avatar_builder/main/test/goldens/avatars/top_shortHairShortCurly.png) | ![avatar 4](https://raw.githubusercontent.com/bramp/avatar_builder/main/test/goldens/avatars/top_longHairMiaWallace.png) | ![avatar 5](https://raw.githubusercontent.com/bramp/avatar_builder/main/test/goldens/avatars/top_longHairBun.png) |
 
-**[Live Demo](https://bramp.github.io/flutter_avataaars/)** · **[API Reference](https://pub.dev/documentation/flutter_avataaars/latest/)**
+**[Live Demo](https://bramp.github.io/avatar_builder/)** · **[API Reference](https://pub.dev/documentation/avatar_builder/latest/)**
 
 ## Features
 
@@ -23,11 +23,11 @@ A Flutter widget that renders customizable [avataaars](https://getavataaars.com/
 
 ## Getting started
 
-Add `avataaars` to your `pubspec.yaml`:
+Add `avatar_builder` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_avataaars: ^0.1.0
+  avatar_builder: ^0.1.0
 ```
 
 Then run:
@@ -41,7 +41,7 @@ flutter pub get
 Import the package:
 
 ```dart
-import 'package:flutter_avataaars/flutter_avataaars.dart';
+import 'package:avatar_builder/avatar_builder.dart';
 ```
 
 ### Display a random avatar
@@ -127,7 +127,7 @@ final svgString = await avatar.toSvg();
 
 ## Example app
 
-A full interactive example is available in the [`example/`](example/) directory and deployed as a **[live demo](https://bramp.github.io/flutter_avataaars/)**.
+A full interactive example is available in the [`example/`](example/) directory and deployed as a **[live demo](https://bramp.github.io/avatar_builder/)**.
 
 To run it locally:
 

@@ -1,4 +1,4 @@
-import 'package:flutter_avataaars/flutter_avataaars.dart';
+import 'package:avatar_builder/avatar_builder.dart';
 import 'package:flutter/material.dart';
 
 /// A form that lets users pick each avatar attribute via dropdowns.

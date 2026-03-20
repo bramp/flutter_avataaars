@@ -8,9 +8,9 @@
 
 import 'dart:io';
 
-import 'package:flutter_avataaars/src/models/avatar_style.dart';
-import 'package:flutter_avataaars/src/svg/svg_cache.dart';
-import 'package:flutter_avataaars/src/svg/svg_data.dart';
+import 'package:avatar_builder/src/models/avatar_style.dart';
+import 'package:avatar_builder/src/svg/svg_cache.dart';
+import 'package:avatar_builder/src/svg/svg_data.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Read all SVG asset files from disk and return an [SvgCache] populated

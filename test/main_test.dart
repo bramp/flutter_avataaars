@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter_avataaars/flutter_avataaars.dart';
+import 'package:avatar_builder/avatar_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
