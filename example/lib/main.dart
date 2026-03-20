@@ -1,4 +1,4 @@
-import 'package:avataaars/avataaars.dart';
+import 'package:flutter_avataaars/flutter_avataaars.dart';
 import 'package:avataaars_example/avatar_form.dart';
 import 'package:flutter/material.dart';
 

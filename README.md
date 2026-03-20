@@ -1,17 +1,58 @@
 # Flutter Avataaars
 
-A Flutter widget that renders [avataaars](https://getavataaars.com/)-style avatars using `flutter_svg`. All SVG data is extracted from the original React [avataaars](https://github.com/fangpenlin/avataaars) library via server-side rendering, ensuring pixel-perfect fidelity.
+A Flutter widget that renders customizable [avataaars](https://getavataaars.com/)-style cartoon avatars. Choose from 34 hairstyles, 12 eye styles, 13 eyebrow styles, 12 mouth styles, 9 clothing options, and more — or generate a random avatar with a single line of code.
+
+[![pub package](https://img.shields.io/pub/v/flutter_avataaars.svg)](https://pub.dev/packages/flutter_avataaars)
+[![License](https://img.shields.io/github/license/bramp/flutter_avataaars)](https://github.com/bramp/flutter_avataaars/blob/main/LICENSE)
+
+| | | | | |
+|---|---|---|---|---|
+| ![avatar 1](https://raw.githubusercontent.com/bramp/flutter_avataaars/main/test/goldens/avatars/style_circle.png) | ![avatar 2](https://raw.githubusercontent.com/bramp/flutter_avataaars/main/test/goldens/avatars/top_longHairCurvy.png) | ![avatar 3](https://raw.githubusercontent.com/bramp/flutter_avataaars/main/test/goldens/avatars/top_shortHairShortCurly.png) | ![avatar 4](https://raw.githubusercontent.com/bramp/flutter_avataaars/main/test/goldens/avatars/top_longHairMiaWallace.png) | ![avatar 5](https://raw.githubusercontent.com/bramp/flutter_avataaars/main/test/goldens/avatars/top_longHairBun.png) |
+
+**[Live Demo](https://bramp.github.io/flutter_avataaars/)** · **[API Reference](https://pub.dev/documentation/flutter_avataaars/latest/)**
+
+## Features
+
+- **140+ SVG fragments** composable into millions of unique avatars
+- **Fully customizable**: hair, eyes, eyebrows, mouth, facial hair, clothing, accessories, skin color
+- **Random avatar generation** via `Avataaar.random()`
+- **Lightweight**: optimized SVG assets (~194 KB total)
+- **Built-in LRU cache** for fast rendering
+- **Circle or transparent** background styles
+- **Pixel-perfect fidelity** to the original [avataaars](https://github.com/fangpenlin/avataaars) React library
+
+## Getting started
+
+Add `avataaars` to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  flutter_avataaars: ^0.1.0
+```
+
+Then run:
+
+```bash
+flutter pub get
+```
 
 ## Usage
 
+Import the package:
+
 ```dart
-import 'package:avataaars/models/avataaar.dart';
-import 'package:avataaars/widgets/avatar_widget.dart';
+import 'package:flutter_avataaars/flutter_avataaars.dart';
+```
 
-// Random avatar
+### Display a random avatar
+
+```dart
 AvatarWidget(avatar: Avataaar.random())
+```
 
-// Specific avatar
+### Display a specific avatar
+
+```dart
 AvatarWidget(
   avatar: Avataaar(
     topType: TopType.shortHairShortFlat,
@@ -28,64 +69,81 @@ AvatarWidget(
 )
 ```
 
-## Regenerating SVG Data
+### Customize the size
 
-The SVG fragments in `lib/svg/svg_data.dart` are generated from the original React avataaars library. To regenerate after changes:
-
-### Prerequisites
-
-- Node.js
-- Python 3
-- The `avataaars-generator` submodule checked out
-
-### Steps
-
-```bash
-# 1. Clone with submodules (if not already done)
-git submodule update --init
-
-# 2. Install dependencies in the React project
-cd avataaars-generator
-npm install
-npm install cheerio --no-save --legacy-peer-deps
-
-# 3. Extract SVG fragments from the React components
-NODE_PATH=./node_modules node ../tools/extract_svg_fragments.js
-
-# 4. Generate the Dart file from the extracted fragments
-cd ..
-python3 tools/generate_svg_data.py
+```dart
+AvatarWidget(
+  avatar: Avataaar.random(),
+  size: 200,
+)
 ```
 
-This produces `lib/svg/svg_data.dart` containing all SVG path data and the `buildAvatarSvg()` builder function.
+### Use a shared cache
 
-### How it works
+`AvatarWidget` uses `SvgCache.instance` by default to cache loaded SVG fragments in memory. You can also provide your own cache:
 
-1. **`tools/extract_svg_fragments.js`** — Uses `ReactDOMServer.renderToStaticMarkup()` to render each avatar variant, then parses the SVG with `cheerio` to extract individual component groups (eyes, mouths, hair, etc.). Sentinel hex colors are baked in as placeholders for runtime substitution. Output: `tools/svg_fragments.json`.
+```dart
+final cache = SvgCache(maxEntries: 256);
 
-2. **`tools/generate_svg_data.py`** — Reads the JSON fragments, optimizes each one through [SVGO](https://github.com/svg/svgo) (with `cleanupIds` disabled to preserve cross-fragment ID references), and writes them as individual `.svgf` asset files under `lib/assets/`. It also generates `lib/src/svg/svg_data.dart` with asset path lookups, color mappings, and an async `buildAvatarSvg()` function that loads and composes fragments on demand.
-
-   SVGO reduces the 107 SVG fragments from **348 KB → 194 KB (44% smaller)**.
-
-3. **`lib/src/svg/svg_cache.dart`** — An LRU cache (`SvgCache`) that loads fragments from `rootBundle` on first access and keeps them in memory. The widget uses `FutureBuilder` to render once assets are ready.
-
-## Running
-
-```bash
-flutter pub get
-flutter run
+AvatarWidget(
+  avatar: Avataaar.random(),
+  cache: cache,
+)
 ```
 
-## Testing
+### Extract the SVG string
+
+Use `toSvg()` to get the composed SVG markup directly — useful for exporting, saving to a file, or server-side use:
+
+```dart
+final avatar = Avataaar(
+  topType: TopType.shortHairShortFlat,
+  eyeType: EyeType.happy,
+  mouthType: MouthType.smile,
+  skinColor: SkinColor.light,
+);
+
+final svgString = await avatar.toSvg();
+// svgString contains a complete <svg>...</svg> document
+// with all colors applied.
+```
+
+## Customization options
+
+| Category | Enum | Options |
+|----------|------|---------|
+| Style | `AvatarStyle` | circle, transparent |
+| Hair / Hat | `TopType` | 34 styles (long hair, short hair, hats, turbans, hijab, etc.) |
+| Hair color | `HairColor` | 12 colors |
+| Accessories | `AccessoriesType` | 7 types (glasses, sunglasses, etc.) |
+| Facial hair | `FacialHairType` | 6 types |
+| Eyes | `EyeType` | 12 styles |
+| Eyebrows | `EyebrowType` | 13 styles |
+| Mouth | `MouthType` | 12 styles |
+| Clothing | `ClotheType` | 9 types |
+| Clothing color | `ClotheColor` | 15 colors |
+| Graphic (on shirts) | `GraphicType` | 11 designs |
+| Skin | `SkinColor` | 7 tones |
+
+## Example app
+
+A full interactive example is available in the [`example/`](example/) directory and deployed as a **[live demo](https://bramp.github.io/flutter_avataaars/)**.
+
+To run it locally:
 
 ```bash
-flutter test
+cd example
+flutter run -d chrome
 ```
+
+## Contributing
+
+Contributions are welcome! See [DEVELOPMENT.md](DEVELOPMENT.md) for how the SVG data is generated and how to work on the package.
 
 ## Credits
 
-This Flutter library is based on the [avataaars-generator](https://github.com/fangpenlin/avataaars-generator) by [Fang-Pen Lin](https://github.com/fangpenlin), which itself uses the avatar artwork created by [Pablo Stanley](https://getavataaars.com/).
+Based on [avataaars-generator](https://github.com/fangpenlin/avataaars-generator) by [Fang-Pen Lin](https://github.com/fangpenlin), using avatar artwork by [Pablo Stanley](https://getavataaars.com/).
 
 ## License
 
-This project is licensed under the BSD License. It is free to use for both commercial and non-commercial purposes. See the [LICENSE](LICENSE) file for details.
+BSD 2-Clause License — see [LICENSE](LICENSE) for details.

@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:avataaars/src/models/avatar_style.dart';
-import 'package:avataaars/src/svg/svg_cache.dart';
-import 'package:avataaars/src/svg/svg_data.dart';
-import 'package:avataaars/src/widgets/avatar_color_mapper.dart';
+import 'package:flutter_avataaars/src/models/avatar_style.dart';
+import 'package:flutter_avataaars/src/svg/svg_cache.dart';
+import 'package:flutter_avataaars/src/svg/svg_data.dart';
+import 'package:flutter_avataaars/src/widgets/avatar_color_mapper.dart';
 
-export 'package:avataaars/src/models/avatar_style.dart';
+export 'package:flutter_avataaars/src/models/avatar_style.dart';
 
 /// Holds the full set of selected avatar attributes.
 // TODO(bramp): Add a json serialization method, so we can save/load these.

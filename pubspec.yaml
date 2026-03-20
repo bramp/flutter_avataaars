@@ -1,10 +1,15 @@
-name: avataaars
+name: flutter_avataaars
 description: >-
   Flutter widget that renders avataaars-style cartoon avatars from
   customizable attributes using SVG.
 version: 0.1.0
 repository: https://github.com/bramp/flutter_avataaars
-publish_to: none
+homepage: https://bramp.github.io/flutter_avataaars/
+topics:
+  - avatar
+  - svg
+  - widget
+  - avataaars
 
 environment:
   sdk: ^3.11.1

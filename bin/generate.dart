@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print // We use print for simple CLI output.
 import 'dart:io';
 
-import 'package:avataaars/avataaars.dart';
+import 'package:flutter_avataaars/flutter_avataaars.dart';
 
 SvgCache _loadCacheFromDisk() {
   const prefix = 'packages/avataaars/lib/assets';

@@ -8,7 +8,7 @@ environment:
   sdk: ^3.11.1
 
 dependencies:
-  avataaars:
+  flutter_avataaars:
     path: ../
   cupertino_icons: ^1.0.8
   flutter:
