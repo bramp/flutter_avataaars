@@ -172,6 +172,7 @@ void main() {
   group('buildAvatarSvg', () {
     test('produces valid SVG with default configuration', () {
       final svg = buildAvatarSvg(
+        style: AvatarStyle.circle,
         topType: TopType.longHairStraight,
         accessoriesType: AccessoriesType.blank,
         facialHairType: FacialHairType.blank,
@@ -188,8 +189,43 @@ void main() {
       expect(svg, contains(sentinelSkin));
     });
 
+    test('transparent style omits circle background', () {
+      final svg = buildAvatarSvg(
+        style: AvatarStyle.transparent,
+        topType: TopType.longHairStraight,
+        accessoriesType: AccessoriesType.blank,
+        facialHairType: FacialHairType.blank,
+        clotheType: ClotheType.shirtCrewNeck,
+        graphicType: GraphicType.bat,
+        eyeType: EyeType.defaultEye,
+        eyebrowType: EyebrowType.defaultBrow,
+        mouthType: MouthType.defaultMouth,
+      );
+      expect(svg, startsWith('<svg '));
+      expect(svg, endsWith('</svg>'));
+      expect(svg, isNot(contains('mask-bg')));
+      expect(svg, isNot(contains('#65C9FF')));
+    });
+
+    test('circle style includes circle background', () {
+      final svg = buildAvatarSvg(
+        style: AvatarStyle.circle,
+        topType: TopType.longHairStraight,
+        accessoriesType: AccessoriesType.blank,
+        facialHairType: FacialHairType.blank,
+        clotheType: ClotheType.shirtCrewNeck,
+        graphicType: GraphicType.bat,
+        eyeType: EyeType.defaultEye,
+        eyebrowType: EyebrowType.defaultBrow,
+        mouthType: MouthType.defaultMouth,
+      );
+      expect(svg, contains('mask-bg'));
+      expect(svg, contains('#65C9FF'));
+    });
+
     test('produces valid SVG with all non-default options', () {
       final svg = buildAvatarSvg(
+        style: AvatarStyle.circle,
         topType: TopType.winterHat2,
         accessoriesType: AccessoriesType.sunglasses,
         facialHairType: FacialHairType.beardMajestic,
@@ -213,6 +249,7 @@ void main() {
       for (final topType in TopType.values) {
         for (final clotheType in ClotheType.values) {
           final svg = buildAvatarSvg(
+            style: AvatarStyle.circle,
             topType: topType,
             accessoriesType: AccessoriesType.prescription01,
             facialHairType: FacialHairType.beardMedium,
@@ -312,29 +349,35 @@ String _buildGoldenContent() {
 
   // Full avatar composition with known configurations.
   buffer.writeln('### buildAvatarSvg(default)');
-  buffer.writeln(buildAvatarSvg(
-    topType: TopType.longHairStraight,
-    accessoriesType: AccessoriesType.blank,
-    facialHairType: FacialHairType.blank,
-    clotheType: ClotheType.shirtCrewNeck,
-    graphicType: GraphicType.bat,
-    eyeType: EyeType.defaultEye,
-    eyebrowType: EyebrowType.defaultBrow,
-    mouthType: MouthType.defaultMouth,
-  ));
+  buffer.writeln(
+    buildAvatarSvg(
+      style: AvatarStyle.circle,
+      topType: TopType.longHairStraight,
+      accessoriesType: AccessoriesType.blank,
+      facialHairType: FacialHairType.blank,
+      clotheType: ClotheType.shirtCrewNeck,
+      graphicType: GraphicType.bat,
+      eyeType: EyeType.defaultEye,
+      eyebrowType: EyebrowType.defaultBrow,
+      mouthType: MouthType.defaultMouth,
+    ),
+  );
   buffer.writeln();
 
   buffer.writeln('### buildAvatarSvg(custom)');
-  buffer.writeln(buildAvatarSvg(
-    topType: TopType.winterHat2,
-    accessoriesType: AccessoriesType.sunglasses,
-    facialHairType: FacialHairType.beardMajestic,
-    clotheType: ClotheType.graphicShirt,
-    graphicType: GraphicType.pizza,
-    eyeType: EyeType.hearts,
-    eyebrowType: EyebrowType.raisedExcitedNatural,
-    mouthType: MouthType.smile,
-  ));
+  buffer.writeln(
+    buildAvatarSvg(
+      style: AvatarStyle.circle,
+      topType: TopType.winterHat2,
+      accessoriesType: AccessoriesType.sunglasses,
+      facialHairType: FacialHairType.beardMajestic,
+      clotheType: ClotheType.graphicShirt,
+      graphicType: GraphicType.pizza,
+      eyeType: EyeType.hearts,
+      eyebrowType: EyebrowType.raisedExcitedNatural,
+      mouthType: MouthType.smile,
+    ),
+  );
   buffer.writeln();
 
   return buffer.toString();

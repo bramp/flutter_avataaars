@@ -22,6 +22,7 @@ class AvatarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final svgString = buildAvatarSvg(
+      style: avatar.style,
       topType: avatar.topType,
       accessoriesType: avatar.accessoriesType,
       facialHairType: avatar.facialHairType,
