@@ -23,6 +23,7 @@ class AvatarForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // -- Background style --
           _buildDropdown<AvatarStyle>(
             label: 'Style',
             value: avatar.style,
@@ -30,19 +31,24 @@ class AvatarForm extends StatelessWidget {
             labelOf: (v) => v.label,
             onChanged: (v) => onChanged(avatar.copyWith(style: v)),
           ),
+
+          // -- Skin --
+          _buildColorDropdown<SkinColor>(
+            label: 'Skin',
+            value: avatar.skinColor,
+            items: SkinColor.values,
+            labelOf: (v) => v.label,
+            colorOf: (v) => v.color,
+            onChanged: (v) => onChanged(avatar.copyWith(skinColor: v)),
+          ),
+
+          // -- Top (hair / hat) --
           _buildDropdown<TopType>(
             label: 'Top',
             value: avatar.topType,
             items: TopType.values,
             labelOf: (v) => v.label,
             onChanged: (v) => onChanged(avatar.copyWith(topType: v)),
-          ),
-          _buildDropdown<AccessoriesType>(
-            label: 'Accessories',
-            value: avatar.accessoriesType,
-            items: AccessoriesType.values,
-            labelOf: (v) => v.label,
-            onChanged: (v) => onChanged(avatar.copyWith(accessoriesType: v)),
           ),
           _buildColorDropdown<HairColor>(
             label: 'Hair Color',
@@ -51,6 +57,7 @@ class AvatarForm extends StatelessWidget {
             labelOf: (v) => v.label,
             colorOf: (v) => v.color,
             onChanged: (v) => onChanged(avatar.copyWith(hairColor: v)),
+            enabled: avatar.topType.hasHair,
           ),
           _buildColorDropdown<HatColor>(
             label: 'Hat Color',
@@ -59,44 +66,19 @@ class AvatarForm extends StatelessWidget {
             labelOf: (v) => v.label,
             colorOf: (v) => v.color,
             onChanged: (v) => onChanged(avatar.copyWith(hatColor: v)),
+            enabled: avatar.topType.hasHat,
           ),
-          _buildDropdown<FacialHairType>(
-            label: 'Facial Hair',
-            value: avatar.facialHairType,
-            items: FacialHairType.values,
+
+          // -- Accessories (glasses) --
+          _buildDropdown<AccessoriesType>(
+            label: 'Accessories',
+            value: avatar.accessoriesType,
+            items: AccessoriesType.values,
             labelOf: (v) => v.label,
-            onChanged: (v) => onChanged(avatar.copyWith(facialHairType: v)),
+            onChanged: (v) => onChanged(avatar.copyWith(accessoriesType: v)),
           ),
-          _buildColorDropdown<FacialHairColor>(
-            label: 'Facial Hair Color',
-            value: avatar.facialHairColor,
-            items: FacialHairColor.values,
-            labelOf: (v) => v.label,
-            colorOf: (v) => v.color,
-            onChanged: (v) => onChanged(avatar.copyWith(facialHairColor: v)),
-          ),
-          _buildDropdown<ClotheType>(
-            label: 'Clothes',
-            value: avatar.clotheType,
-            items: ClotheType.values,
-            labelOf: (v) => v.label,
-            onChanged: (v) => onChanged(avatar.copyWith(clotheType: v)),
-          ),
-          _buildColorDropdown<ClotheColor>(
-            label: 'Clothes Color',
-            value: avatar.clotheColor,
-            items: ClotheColor.values,
-            labelOf: (v) => v.label,
-            colorOf: (v) => v.color,
-            onChanged: (v) => onChanged(avatar.copyWith(clotheColor: v)),
-          ),
-          _buildDropdown<GraphicType>(
-            label: 'Graphic',
-            value: avatar.graphicType,
-            items: GraphicType.values,
-            labelOf: (v) => v.label,
-            onChanged: (v) => onChanged(avatar.copyWith(graphicType: v)),
-          ),
+
+          // -- Face --
           _buildDropdown<EyeType>(
             label: 'Eyes',
             value: avatar.eyeType,
@@ -118,13 +100,49 @@ class AvatarForm extends StatelessWidget {
             labelOf: (v) => v.label,
             onChanged: (v) => onChanged(avatar.copyWith(mouthType: v)),
           ),
-          _buildColorDropdown<SkinColor>(
-            label: 'Skin',
-            value: avatar.skinColor,
-            items: SkinColor.values,
+
+          // -- Facial hair --
+          _buildDropdown<FacialHairType>(
+            label: 'Facial Hair',
+            value: avatar.facialHairType,
+            items: FacialHairType.values,
+            labelOf: (v) => v.label,
+            onChanged: (v) => onChanged(avatar.copyWith(facialHairType: v)),
+          ),
+          _buildColorDropdown<FacialHairColor>(
+            label: 'Facial Hair Color',
+            value: avatar.facialHairColor,
+            items: FacialHairColor.values,
             labelOf: (v) => v.label,
             colorOf: (v) => v.color,
-            onChanged: (v) => onChanged(avatar.copyWith(skinColor: v)),
+            onChanged: (v) => onChanged(avatar.copyWith(facialHairColor: v)),
+            enabled: avatar.facialHairType.hasFacialHair,
+          ),
+
+          // -- Clothing --
+          _buildDropdown<ClotheType>(
+            label: 'Clothes',
+            value: avatar.clotheType,
+            items: ClotheType.values,
+            labelOf: (v) => v.label,
+            onChanged: (v) => onChanged(avatar.copyWith(clotheType: v)),
+          ),
+          _buildColorDropdown<ClotheColor>(
+            label: 'Clothes Color',
+            value: avatar.clotheColor,
+            items: ClotheColor.values,
+            labelOf: (v) => v.label,
+            colorOf: (v) => v.color,
+            onChanged: (v) => onChanged(avatar.copyWith(clotheColor: v)),
+            enabled: avatar.clotheType.hasClotheColor,
+          ),
+          _buildDropdown<GraphicType>(
+            label: 'Graphic',
+            value: avatar.graphicType,
+            items: GraphicType.values,
+            labelOf: (v) => v.label,
+            onChanged: (v) => onChanged(avatar.copyWith(graphicType: v)),
+            enabled: avatar.clotheType.hasGraphic,
           ),
         ],
       ),
@@ -137,28 +155,35 @@ class AvatarForm extends StatelessWidget {
     required List<T> items,
     required String Function(T) labelOf,
     required ValueChanged<T> onChanged,
+    bool enabled = true,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
-      child: InputDecorator(
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        ),
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<T>(
-            value: value,
-            isExpanded: true,
-            isDense: true,
-            items: items
-                .map((v) =>
-                    DropdownMenuItem(value: v, child: Text(labelOf(v))))
-                .toList(),
-            onChanged: (v) {
-              if (v != null) onChanged(v);
-            },
+      child: Opacity(
+        opacity: enabled ? 1.0 : 0.4,
+        child: InputDecorator(
+          decoration: InputDecoration(
+            labelText: label,
+            border: const OutlineInputBorder(),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: IgnorePointer(
+              ignoring: !enabled,
+              child: DropdownButton<T>(
+                value: value,
+                isExpanded: true,
+                isDense: true,
+                items: items
+                    .map((v) =>
+                        DropdownMenuItem(value: v, child: Text(labelOf(v))))
+                    .toList(),
+                onChanged: (v) {
+                  if (v != null) onChanged(v);
+                },
+              ),
+            ),
           ),
         ),
       ),
@@ -172,21 +197,26 @@ class AvatarForm extends StatelessWidget {
     required String Function(T) labelOf,
     required Color Function(T) colorOf,
     required ValueChanged<T> onChanged,
+    bool enabled = true,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
-      child: InputDecorator(
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        ),
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<T>(
-            value: value,
-            isExpanded: true,
-            isDense: true,
+      child: Opacity(
+        opacity: enabled ? 1.0 : 0.4,
+        child: InputDecorator(
+          decoration: InputDecoration(
+            labelText: label,
+            border: const OutlineInputBorder(),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: IgnorePointer(
+              ignoring: !enabled,
+              child: DropdownButton<T>(
+                value: value,
+                isExpanded: true,
+                isDense: true,
             items: items
                 .map(
                   (v) => DropdownMenuItem(
@@ -209,9 +239,11 @@ class AvatarForm extends StatelessWidget {
                   ),
                 )
                 .toList(),
-            onChanged: (v) {
-              if (v != null) onChanged(v);
-            },
+                onChanged: (v) {
+                  if (v != null) onChanged(v);
+                },
+              ),
+            ),
           ),
         ),
       ),

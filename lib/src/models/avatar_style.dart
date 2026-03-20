@@ -128,6 +128,15 @@ enum TopType {
 
   /// Human-readable label.
   final String label;
+
+  /// Whether this top type displays hair (and thus uses [HairColor]).
+  bool get hasHair => name.startsWith('longHair') || name.startsWith('shortHair');
+
+  /// Whether this top type is a hat (and thus uses [HatColor]).
+  bool get hasHat => this == hat ||
+      this == hijab ||
+      this == turban ||
+      name.startsWith('winterHat');
 }
 
 /// Accessories / glasses type.
@@ -283,6 +292,9 @@ enum FacialHairType {
 
   /// Human-readable label.
   final String label;
+
+  /// Whether this type has visible facial hair (and thus uses [FacialHairColor]).
+  bool get hasFacialHair => this != blank;
 }
 
 /// Facial hair color.
@@ -353,6 +365,12 @@ enum ClotheType {
 
   /// Human-readable label.
   final String label;
+
+  /// Whether this clothing type uses [ClotheColor].
+  bool get hasClotheColor => this != blazerShirt && this != blazerSweater;
+
+  /// Whether this clothing type displays a graphic (and thus uses [GraphicType]).
+  bool get hasGraphic => this == graphicShirt;
 }
 
 /// Clothe color (same palette as hat color).
