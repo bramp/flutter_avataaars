@@ -93,12 +93,12 @@ class AvatarColorMapper extends ColorMapper {
 
   @override
   int get hashCode => Object.hash(
-        skinColor,
-        hairColor,
-        hatColor,
-        clotheColor,
-        facialHairColor,
-      );
+    skinColor,
+    hairColor,
+    hatColor,
+    clotheColor,
+    facialHairColor,
+  );
 
   /// Darkens a color by reducing its RGB components by [amount] (0.0–1.0).
   static Color _darken(Color color, double amount) {

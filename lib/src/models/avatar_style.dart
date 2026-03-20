@@ -6,7 +6,8 @@ enum AvatarStyle {
   circle('Circle'),
 
   /// Transparent background.
-  transparent('Transparent');
+  transparent('Transparent')
+  ;
 
   const AvatarStyle(this.label);
 
@@ -122,7 +123,8 @@ enum TopType {
   shortHairTheCaesar('Short Hair The Caesar'),
 
   /// Short hair the caesar side part.
-  shortHairTheCaesarSidePart('Short Hair The Caesar Side Part');
+  shortHairTheCaesarSidePart('Short Hair The Caesar Side Part')
+  ;
 
   const TopType(this.label);
 
@@ -130,10 +132,12 @@ enum TopType {
   final String label;
 
   /// Whether this top type displays hair (and thus uses [HairColor]).
-  bool get hasHair => name.startsWith('longHair') || name.startsWith('shortHair');
+  bool get hasHair =>
+      name.startsWith('longHair') || name.startsWith('shortHair');
 
   /// Whether this top type is a hat (and thus uses [HatColor]).
-  bool get hasHat => this == hat ||
+  bool get hasHat =>
+      this == hat ||
       this == hijab ||
       this == turban ||
       name.startsWith('winterHat');
@@ -160,7 +164,8 @@ enum AccessoriesType {
   sunglasses('Sunglasses'),
 
   /// Wayfarers.
-  wayfarers('Wayfarers');
+  wayfarers('Wayfarers')
+  ;
 
   const AccessoriesType(this.label);
 
@@ -201,7 +206,8 @@ enum HairColor {
   red('Red', Color(0xFFC93305)),
 
   /// Silver gray.
-  silverGray('Silver Gray', Color(0xFFE8E1E1));
+  silverGray('Silver Gray', Color(0xFFE8E1E1))
+  ;
 
   const HairColor(this.label, this.color);
 
@@ -257,7 +263,8 @@ enum HatColor {
   red('Red', Color(0xFFFF5C5C)),
 
   /// White.
-  white('White', Color(0xFFFFFFFF));
+  white('White', Color(0xFFFFFFFF))
+  ;
 
   const HatColor(this.label, this.color);
 
@@ -286,7 +293,8 @@ enum FacialHairType {
   moustacheFancy('Moustache Fancy'),
 
   /// Magnum moustache.
-  moustacheMagnum('Moustache Magnum');
+  moustacheMagnum('Moustache Magnum')
+  ;
 
   const FacialHairType(this.label);
 
@@ -321,7 +329,8 @@ enum FacialHairColor {
   platinum('Platinum', Color(0xFFECDCBF)),
 
   /// Red.
-  red('Red', Color(0xFFC93305));
+  red('Red', Color(0xFFC93305))
+  ;
 
   const FacialHairColor(this.label, this.color);
 
@@ -359,7 +368,8 @@ enum ClotheType {
   shirtScoopNeck('Shirt Scoop Neck'),
 
   /// V-neck shirt.
-  shirtVNeck('Shirt V-Neck');
+  shirtVNeck('Shirt V-Neck')
+  ;
 
   const ClotheType(this.label);
 
@@ -418,7 +428,8 @@ enum ClotheColor {
   red('Red', Color(0xFFFF5C5C)),
 
   /// White.
-  white('White', Color(0xFFFFFFFF));
+  white('White', Color(0xFFFFFFFF))
+  ;
 
   const ClotheColor(this.label, this.color);
 
@@ -462,7 +473,8 @@ enum GraphicType {
   resist('Resist'),
 
   /// Bear.
-  bear('Bear');
+  bear('Bear')
+  ;
 
   const GraphicType(this.label);
 
@@ -506,7 +518,8 @@ enum EyeType {
   wink('Wink'),
 
   /// Wacky wink.
-  winkWacky('Wink Wacky');
+  winkWacky('Wink Wacky')
+  ;
 
   const EyeType(this.label);
 
@@ -553,7 +566,8 @@ enum EyebrowType {
   upDown('Up Down'),
 
   /// Up down natural eyebrows.
-  upDownNatural('Up Down Natural');
+  upDownNatural('Up Down Natural')
+  ;
 
   const EyebrowType(this.label);
 
@@ -597,7 +611,8 @@ enum MouthType {
   twinkle('Twinkle'),
 
   /// Vomit.
-  vomit('Vomit');
+  vomit('Vomit')
+  ;
 
   const MouthType(this.label);
 
@@ -626,7 +641,8 @@ enum SkinColor {
   darkBrown('Dark Brown', Color(0xFFAE5D29)),
 
   /// Black.
-  black('Black', Color(0xFF614335));
+  black('Black', Color(0xFF614335))
+  ;
 
   const SkinColor(this.label, this.color);
 

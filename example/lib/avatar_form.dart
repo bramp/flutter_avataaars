@@ -165,8 +165,10 @@ class AvatarForm extends StatelessWidget {
           decoration: InputDecoration(
             labelText: label,
             border: const OutlineInputBorder(),
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 4,
+            ),
           ),
           child: DropdownButtonHideUnderline(
             child: IgnorePointer(
@@ -176,8 +178,10 @@ class AvatarForm extends StatelessWidget {
                 isExpanded: true,
                 isDense: true,
                 items: items
-                    .map((v) =>
-                        DropdownMenuItem(value: v, child: Text(labelOf(v))))
+                    .map(
+                      (v) =>
+                          DropdownMenuItem(value: v, child: Text(labelOf(v))),
+                    )
                     .toList(),
                 onChanged: (v) {
                   if (v != null) onChanged(v);
@@ -207,8 +211,10 @@ class AvatarForm extends StatelessWidget {
           decoration: InputDecoration(
             labelText: label,
             border: const OutlineInputBorder(),
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 4,
+            ),
           ),
           child: DropdownButtonHideUnderline(
             child: IgnorePointer(
@@ -217,28 +223,28 @@ class AvatarForm extends StatelessWidget {
                 value: value,
                 isExpanded: true,
                 isDense: true,
-            items: items
-                .map(
-                  (v) => DropdownMenuItem(
-                    value: v,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            color: colorOf(v),
-                            border: Border.all(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
+                items: items
+                    .map(
+                      (v) => DropdownMenuItem(
+                        value: v,
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: colorOf(v),
+                                border: Border.all(color: Colors.grey.shade400),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(labelOf(v)),
+                          ],
                         ),
-                        const SizedBox(width: 8),
-                        Text(labelOf(v)),
-                      ],
-                    ),
-                  ),
-                )
-                .toList(),
+                      ),
+                    )
+                    .toList(),
                 onChanged: (v) {
                   if (v != null) onChanged(v);
                 },
