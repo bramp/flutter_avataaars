@@ -52,6 +52,35 @@ class AvatarColorMapper extends ColorMapper {
     );
   }
 
+  /// Applies this color mapping directly to an SVG string.
+  ///
+  /// This performs string replacements substituting the sentinel hex values
+  /// with the configured colors.
+  String applyToString(String svg) {
+    String toHex(Color c) {
+      return '#${(c.r * 255).round().toRadixString(16).padLeft(2, '0')}'
+             '${(c.g * 255).round().toRadixString(16).padLeft(2, '0')}'
+             '${(c.b * 255).round().toRadixString(16).padLeft(2, '0')}'.toUpperCase();
+    }
+
+    final replacements = <String, String>{
+      toHex(_skinSentinel).toLowerCase(): toHex(skinColor),
+      toHex(_hairSentinel).toLowerCase(): toHex(hairColor),
+      toHex(_hairShadowSentinel).toLowerCase(): toHex(_darken(hairColor, 0.20)),
+      toHex(_hatSentinel).toLowerCase(): toHex(hatColor),
+      toHex(_clotheSentinel).toLowerCase(): toHex(clotheColor),
+      toHex(_facialHairSentinel).toLowerCase(): toHex(facialHairColor),
+    };
+
+    final pattern = replacements.keys.join('|');
+    final regex = RegExp(pattern, caseSensitive: false);
+
+    return svg.replaceAllMapped(regex, (match) {
+      final key = match.group(0)!.toLowerCase();
+      return replacements[key] ?? match.group(0)!;
+    });
+  }
+
   /// The color to substitute for skin sentinel.
   final Color skinColor;
 

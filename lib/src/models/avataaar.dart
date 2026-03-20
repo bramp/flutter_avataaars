@@ -1,6 +1,9 @@
 import 'dart:math';
 
 import 'package:avataaars/src/models/avatar_style.dart';
+import 'package:avataaars/src/svg/svg_cache.dart';
+import 'package:avataaars/src/svg/svg_data.dart';
+import 'package:avataaars/src/widgets/avatar_color_mapper.dart';
 
 export 'package:avataaars/src/models/avatar_style.dart';
 
@@ -89,6 +92,47 @@ class Avataaar {
 
   /// The skin color.
   SkinColor skinColor;
+
+  /// Renders the avatar into an SVG string.
+  /// 
+  /// Loads required SVG asset fragments asynchronously via the provided
+  /// [cache] (or a default if null).
+  /// If [colorMapped] is true (the default), color placeholders are replaced
+  /// with the avatar's configured colors. If false, the raw SVG is returned
+  /// with sentinel hex values untouched (useful if providing a custom ColorMapper).
+  Future<String> toSvg({SvgCache? cache, bool colorMapped = true}) async {
+    var svgStr = await buildAvatarSvg(
+      cache: cache,
+      style: style,
+      topType: topType,
+      accessoriesType: accessoriesType,
+      facialHairType: facialHairType,
+      clotheType: clotheType,
+      graphicType: graphicType,
+      eyeType: eyeType,
+      eyebrowType: eyebrowType,
+      mouthType: mouthType,
+    );
+
+    if (!svgStr.contains('xmlns="http://www.w3.org/2000/svg"')) {
+      svgStr = svgStr.replaceFirst(
+        '<svg',
+        '<svg xmlns="http://www.w3.org/2000/svg"',
+      );
+    }
+
+    if (!colorMapped) return svgStr;
+
+    final mapper = AvatarColorMapper.fromEnums(
+      skinColor: skinColor,
+      hairColor: hairColor,
+      hatColor: hatColor,
+      clotheColor: clotheColor,
+      facialHairColor: facialHairColor,
+    );
+
+    return mapper.applyToString(svgStr);
+  }
 
   /// Creates a copy with the given fields replaced.
   Avataaar copyWith({

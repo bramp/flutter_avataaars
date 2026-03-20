@@ -45,7 +45,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
   @override
   void initState() {
     super.initState();
-    _future = _buildSvg();
+    _future = widget.avatar.toSvg(cache: widget.cache, colorMapped: false);
   }
 
   @override
@@ -53,24 +53,8 @@ class _AvatarWidgetState extends State<AvatarWidget> {
     super.didUpdateWidget(oldWidget);
     if (widget.avatar != oldWidget.avatar ||
         widget.cache != oldWidget.cache) {
-      _future = _buildSvg();
+      _future = widget.avatar.toSvg(cache: widget.cache, colorMapped: false);
     }
-  }
-
-  Future<String> _buildSvg() {
-    final avatar = widget.avatar;
-    return buildAvatarSvg(
-      cache: widget.cache,
-      style: avatar.style,
-      topType: avatar.topType,
-      accessoriesType: avatar.accessoriesType,
-      facialHairType: avatar.facialHairType,
-      clotheType: avatar.clotheType,
-      graphicType: avatar.graphicType,
-      eyeType: avatar.eyeType,
-      eyebrowType: avatar.eyebrowType,
-      mouthType: avatar.mouthType,
-    );
   }
 
   @override
