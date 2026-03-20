@@ -64,8 +64,10 @@ def svgo_optimize(fragment):
 
     tmp_out_path = tmp_in_path + '.opt.svg'
     try:
+        config_path = os.path.join(os.path.dirname(__file__), 'svgo.config.mjs')
         subprocess.run(
-            ['svgo', tmp_in_path, '-o', tmp_out_path, '--quiet'],
+            ['svgo', tmp_in_path, '-o', tmp_out_path, '--quiet',
+             '--config', config_path],
             check=True, capture_output=True, text=True,
         )
         with open(tmp_out_path) as f:
@@ -170,13 +172,13 @@ ENUM_MAP = {
     },
 }
 
-# Sentinel hex colors (uppercase to match the original SVG fragments)
-SENTINEL_SKIN = '#AE5D29'
-SENTINEL_HAIR = '#E8E1E1'
-SENTINEL_HAIR_SHADOW = '#CCB55A'
-SENTINEL_HAT = '#FF5C5C'
-SENTINEL_CLOTHE = '#FF488E'
-SENTINEL_FACIAL_HAIR = '#A55728'
+# Sentinel hex colors (lowercase — SVGO normalizes hex to lowercase)
+SENTINEL_SKIN = '#ae5d29'
+SENTINEL_HAIR = '#e8e1e1'
+SENTINEL_HAIR_SHADOW = '#ccb55a'
+SENTINEL_HAT = '#ff5c5c'
+SENTINEL_CLOTHE = '#ff488e'
+SENTINEL_FACIAL_HAIR = '#a55728'
 
 # Category mapping: (json_key, asset_dir_name)
 ASSET_CATEGORIES = [
@@ -213,8 +215,7 @@ def optimize_and_write(subdir, filename, fragment):
     """
     global total_before, total_after, file_count
     before = len(fragment.encode('utf-8')) if fragment else 0
-    # TODO: Re-enable SVGO optimization once ID preservation is configured.
-    optimized = fragment or ''
+    optimized = svgo_optimize(fragment) if fragment else ''
     after = len(optimized.encode('utf-8'))
     if optimized:
         write_asset(subdir, filename, optimized)

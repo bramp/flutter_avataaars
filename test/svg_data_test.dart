@@ -356,10 +356,8 @@ String _assetKeyForType(String category, Enum type) {
 /// Builds a deterministic string containing composed SVG outputs
 /// for known avatar configurations.
 Future<String> _buildGoldenContent(SvgCache cache) async {
-  final buffer = StringBuffer();
-
   // Full avatar composition with known configurations.
-  buffer
+  final buffer = StringBuffer()
     ..writeln('### buildAvatarSvg(default)')
     ..writeln(
       await buildAvatarSvg(

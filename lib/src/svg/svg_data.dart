@@ -9,12 +9,12 @@ import 'package:avataaars/src/svg/svg_cache.dart';
 // These are the colors produced by rendering avataaars with specific options
 // (DarkBrown skin, SilverGray hair, Red hat, Pink clothe, Auburn facial hair).
 // At runtime, AvatarColorMapper substitutes the user's actual colors.
-const String sentinelSkin = '#AE5D29';
-const String sentinelHair = '#E8E1E1';
-const String sentinelHairShadow = '#CCB55A';
-const String sentinelHat = '#FF5C5C';
-const String sentinelClothe = '#FF488E';
-const String sentinelFacialHair = '#A55728';
+const String sentinelSkin = '#ae5d29';
+const String sentinelHair = '#e8e1e1';
+const String sentinelHairShadow = '#ccb55a';
+const String sentinelHat = '#ff5c5c';
+const String sentinelClothe = '#ff488e';
+const String sentinelFacialHair = '#a55728';
 
 const String _assetPrefix = 'packages/avataaars/lib/assets';
 

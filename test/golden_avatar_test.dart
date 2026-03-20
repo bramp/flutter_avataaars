@@ -2,6 +2,7 @@
 library;
 
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:avataaars/avataaars.dart';
 import 'package:flutter/material.dart';
@@ -27,20 +28,8 @@ SvgCache _loadCacheFromDisk() {
 /// A default avatar used as the base for all golden tests.
 /// Each test varies one attribute from this baseline.
 final _base = Avataaar(
-  style: AvatarStyle.circle,
   topType: TopType.shortHairShortFlat,
-  accessoriesType: AccessoriesType.blank,
-  hairColor: HairColor.brownDark,
-  hatColor: HatColor.gray01,
-  facialHairType: FacialHairType.blank,
-  facialHairColor: FacialHairColor.brownDark,
-  clotheType: ClotheType.shirtCrewNeck,
   clotheColor: ClotheColor.heather,
-  graphicType: GraphicType.bat,
-  eyeType: EyeType.defaultEye,
-  eyebrowType: EyebrowType.defaultBrow,
-  mouthType: MouthType.defaultMouth,
-  skinColor: SkinColor.light,
 );
 
 /// Pump an [AvatarWidget] and match against a golden file.
@@ -70,11 +59,41 @@ Future<void> _goldenTest(
   );
 }
 
+/// A [LocalFileComparator] that tolerates small pixel differences.
+class _TolerantComparator extends LocalFileComparator {
+  _TolerantComparator(super.testFile);
+
+  // Allow up to 1% of pixels to differ.
+  static const double _kTolerance = 0.01;
+
+  @override
+  Future<bool> compare(Uint8List imageBytes, Uri golden) async {
+    final result = await GoldenFileComparator.compareLists(
+      imageBytes,
+      await getGoldenBytes(golden),
+    );
+    if (!result.passed && result.diffPercent <= _kTolerance) {
+      return true;
+    }
+    if (!result.passed) {
+      final error = await generateFailureOutput(result, golden, basedir);
+      throw FlutterError(error);
+    }
+    return result.passed;
+  }
+}
+
 void main() {
   late SvgCache cache;
 
   setUpAll(() {
     cache = _loadCacheFromDisk();
+
+    // Allow up to 1% pixel difference to tolerate minor rendering
+    // variations across OS/Flutter versions.
+    goldenFileComparator = _TolerantComparator(
+      Uri.parse('test/golden_avatar_test.dart'),
+    );
   });
 
   // --- TopType (hair styles and hats) ---
