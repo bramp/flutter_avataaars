@@ -3,12 +3,15 @@
 A Flutter widget that renders customizable [avataaars](https://getavataaars.com/)-style cartoon avatars. Choose from 34 hairstyles, 12 eye styles, 13 eyebrow styles, 12 mouth styles, 9 clothing options, and more — or generate a random avatar with a single line of code.
 
 [![pub package](https://img.shields.io/pub/v/avatar_builder.svg)](https://pub.dev/packages/avatar_builder)
+[![Pub publisher](https://img.shields.io/pub/publisher/svg_path_transform.svg)](https://pub.dev/publishers/bramp.net/packages)
+[![Dart Analysis](https://github.com/bramp/svg_path/actions/workflows/dart.yml/badge.svg)](https://github.com/bramp/avatar_builder/actions/workflows/test.yml)
 [![License](https://img.shields.io/github/license/bramp/avatar_builder)](https://github.com/bramp/avatar_builder/blob/main/LICENSE)
+
 
 | | | | | |
 |---|---|---|---|---|
-| ![avatar 1](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_1.svg) | ![avatar 2](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_2.svg) | ![avatar 3](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_3.svg) | ![avatar 4](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_4.svg) | ![avatar 5](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_5.svg) |
-| ![avatar 6](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_6.svg) | ![avatar 7](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_7.svg) | ![avatar 8](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_8.svg) | ![avatar 9](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_9.svg) | ![avatar 10](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_10.svg) |
+| ![avatar 1](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_1.svg?sanitize=true) | ![avatar 2](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_2.svg?sanitize=true) | ![avatar 3](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_3.svg?sanitize=true) | ![avatar 4](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_4.svg?sanitize=true) | ![avatar 5](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_5.svg?sanitize=true) |
+| ![avatar 6](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_6.svg?sanitize=true) | ![avatar 7](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_7.svg?sanitize=true) | ![avatar 8](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_8.svg?sanitize=true) | ![avatar 9](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_9.svg?sanitize=true) | ![avatar 10](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_10.svg?sanitize=true) |
 
 **[Live Demo](https://bramp.github.io/avatar_builder/)** · **[API Reference](https://pub.dev/documentation/avatar_builder/latest/)**
 
@@ -115,18 +118,18 @@ final svgString = await avatar.toSvg(loadAsset: SvgCache.instance.load);
 
 | Category | Enum | Options |
 |----------|------|---------|
-| Style | `AvatarStyle` | circle, transparent |
-| Hair / Hat | `TopType` | 34 styles (long hair, short hair, hats, turbans, hijab, etc.) |
-| Hair color | `HairColor` | 12 colors |
-| Accessories | `AccessoriesType` | 7 types (glasses, sunglasses, etc.) |
-| Facial hair | `FacialHairType` | 6 types |
-| Eyes | `EyeType` | 12 styles |
-| Eyebrows | `EyebrowType` | 13 styles |
-| Mouth | `MouthType` | 12 styles |
-| Clothing | `ClotheType` | 9 types |
-| Clothing color | `ClotheColor` | 15 colors |
-| Graphic (on shirts) | `GraphicType` | 11 designs |
-| Skin | `SkinColor` | 7 tones |
+| Style | [`AvatarStyle`](https://pub.dev/documentation/avatar_builder/latest/avatar_builder/AvatarStyle.html) | circle, transparent |
+| Hair / Hat | [`TopType`](https://pub.dev/documentation/avatar_builder/latest/avatar_builder/TopType.html) | 34 styles (long hair, short hair, hats, turbans, hijab, etc.) |
+| Hair color | [`HairColor`](https://pub.dev/documentation/avatar_builder/latest/avatar_builder/HairColor.html) | 12 colors |
+| Accessories | [`AccessoriesType`](https://pub.dev/documentation/avatar_builder/latest/avatar_builder/AccessoriesType.html) | 7 types (glasses, sunglasses, etc.) |
+| Facial hair | [`FacialHairType`](https://pub.dev/documentation/avatar_builder/latest/avatar_builder/FacialHairType.html) | 6 types |
+| Eyes | [`EyeType`](https://pub.dev/documentation/avatar_builder/latest/avatar_builder/EyeType.html) | 12 styles |
+| Eyebrows | [`EyebrowType`](https://pub.dev/documentation/avatar_builder/latest/avatar_builder/EyebrowType.html) | 13 styles |
+| Mouth | [`MouthType`](https://pub.dev/documentation/avatar_builder/latest/avatar_builder/MouthType.html) | 12 styles |
+| Clothing | [`ClotheType`](https://pub.dev/documentation/avatar_builder/latest/avatar_builder/ClotheType.html) | 9 types |
+| Clothing color | [`ClotheColor`](https://pub.dev/documentation/avatar_builder/latest/avatar_builder/ClotheColor.html) | 15 colors |
+| Graphic (on shirts) | [`GraphicType`](https://pub.dev/documentation/avatar_builder/latest/avatar_builder/GraphicType.html) | 11 designs |
+| Skin | [`SkinColor`](https://pub.dev/documentation/avatar_builder/latest/avatar_builder/SkinColor.html) | 7 tones |
 
 ## Example app
 
