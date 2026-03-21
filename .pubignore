@@ -14,9 +14,6 @@ build/
 # Example build artifacts
 example/build/
 
-# Empty directory
-assets/
-
 # Documentation not needed in package
 AGENTS.md
 TESTING_STRATEGY.md

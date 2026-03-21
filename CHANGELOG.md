@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+- Fix `.pubignore` excluding SVG asset files from the published package.
+
 ## 0.1.0
 
 - Initial release.
