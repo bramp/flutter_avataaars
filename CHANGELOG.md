@@ -1,8 +1,9 @@
 # Changelog
 
-## next
+## 0.3.1
 
 - Correct `--base-href` in GitHub deployment workflow to `/avatar_builder/`.
+- Fix SVG sample images not rendering in README on GitHub.
 
 ## 0.3.0
 
