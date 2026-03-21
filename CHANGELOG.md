@@ -1,5 +1,9 @@
 # Changelog
 
+## next
+
+- Correct `--base-href` in GitHub deployment workflow to `/avatar_builder/`.
+
 ## 0.3.0
 
 - Add `FileAssetLoader` to `avatar_builder_core` for easy asset loading in
@@ -30,4 +34,3 @@
 - `SvgCache` for efficient LRU caching of SVG asset fragments.
 - 140+ optimized SVG fragments covering all avatar component variations.
 - Circle and transparent background styles via `AvatarStyle`.
-sparent background styles via `AvatarStyle`.

@@ -43,7 +43,7 @@ jobs:
           BUILD_DATE=$(date -u +"%Y-%m-%d %H:%M UTC")
           cd avatar_builder/example
           flutter build web --release \
-            --base-href "/flutter_avataaars/" \
+            --base-href "/avatar_builder/" \
             --dart-define=COMMIT_HASH=$COMMIT_HASH \
             --dart-define=BUILD_DATE="$BUILD_DATE"
 
