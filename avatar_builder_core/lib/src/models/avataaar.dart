@@ -37,24 +37,24 @@ class Avataaar {
        skinColor = skinColor ?? SkinColor.light.color;
 
   /// Generate a completely random avatar.
-  // TODO(bramp): Bias some of these picks.
   factory Avataaar.random([Random? rng]) {
     final r = rng ?? Random();
     T pick<T>(List<T> values) => values[r.nextInt(values.length)];
+
     return Avataaar(
       style: pick(AvatarStyle.values),
       topType: pick(TopType.values),
-      accessoriesType: pick(AccessoriesType.values),
+      accessoriesType: _weightedPick(r, _accessoriesWeights),
       hairColor: pick(HairColor.values).color,
       hatColor: pick(HatColor.values).color,
-      facialHairType: pick(FacialHairType.values),
+      facialHairType: _weightedPick(r, _facialHairWeights),
       facialHairColor: pick(FacialHairColor.values).color,
       clotheType: pick(ClotheType.values),
       clotheColor: pick(ClotheColor.values).color,
       graphicType: pick(GraphicType.values),
-      eyeType: pick(EyeType.values),
+      eyeType: _weightedPick(r, _eyeWeights),
       eyebrowType: pick(EyebrowType.values),
-      mouthType: pick(MouthType.values),
+      mouthType: _weightedPick(r, _mouthWeights),
       skinColor: pick(SkinColor.values).color,
     );
   }
@@ -81,6 +81,66 @@ class Avataaar {
       mouthType: MouthType.values.byName(json['mouthType'] as String),
       skinColor: _hexToArgb(json['skinColor'] as String),
     );
+  }
+
+  // Weights for random avatar generation. Higher values = more likely.
+  static const Map<AccessoriesType, int> _accessoriesWeights = {
+    AccessoriesType.blank: 3,
+    AccessoriesType.kurt: 1,
+    AccessoriesType.prescription01: 1,
+    AccessoriesType.prescription02: 1,
+    AccessoriesType.round: 1,
+    AccessoriesType.sunglasses: 1,
+    AccessoriesType.wayfarers: 1,
+  };
+
+  static const Map<FacialHairType, int> _facialHairWeights = {
+    FacialHairType.blank: 5,
+    FacialHairType.beardLight: 1,
+    FacialHairType.beardMajestic: 1,
+    FacialHairType.beardMedium: 1,
+    FacialHairType.moustacheFancy: 1,
+    FacialHairType.moustacheMagnum: 1,
+  };
+
+  static const Map<EyeType, int> _eyeWeights = {
+    EyeType.close: 1,
+    EyeType.cry: 1,
+    EyeType.defaultEye: 3,
+    EyeType.dizzy: 1,
+    EyeType.eyeRoll: 1,
+    EyeType.happy: 3,
+    EyeType.hearts: 1,
+    EyeType.side: 3,
+    EyeType.squint: 3,
+    EyeType.surprised: 3,
+    EyeType.wink: 1,
+    EyeType.winkWacky: 1,
+  };
+
+  static const Map<MouthType, int> _mouthWeights = {
+    MouthType.concerned: 3,
+    MouthType.defaultMouth: 3,
+    MouthType.disbelief: 1,
+    MouthType.eating: 1,
+    MouthType.grimace: 1,
+    MouthType.sad: 1,
+    MouthType.screamOpen: 1,
+    MouthType.serious: 3,
+    MouthType.smile: 3,
+    MouthType.tongue: 1,
+    MouthType.twinkle: 3,
+    MouthType.vomit: 1,
+  };
+
+  /// Picks a random value from [weights] using weighted random selection.
+  static T _weightedPick<T>(Random r, Map<T, int> weights) {
+    var roll = r.nextInt(weights.values.fold(0, (a, b) => a + b));
+    for (final entry in weights.entries) {
+      roll -= entry.value;
+      if (roll < 0) return entry.key;
+    }
+    return weights.keys.last;
   }
 
   /// Returns the [HairColor] enum matching [hairColor], or `null`.

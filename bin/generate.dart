@@ -27,6 +27,7 @@ void _printUsage() {
   print('                        Use {n} placeholder for count > 1');
   print('  -n, --count <int>     Number of avatars to generate (default: 1)');
   print('  -s, --seed <int>      Random seed for reproducibility');
+  print('      --circle          Use circle background (default is random)');
   print('      --transparent     Use transparent background (no circle)');
   print('  -h, --help            Show this help message');
 }
@@ -35,7 +36,7 @@ Future<void> main(List<String> arguments) async {
   String output = 'avatar.svg';
   int count = 1;
   int? seed;
-  var transparent = false;
+  AvatarStyle? styleOverride;
 
   for (var i = 0; i < arguments.length; i++) {
     switch (arguments[i]) {
@@ -45,8 +46,10 @@ Future<void> main(List<String> arguments) async {
         if (++i < arguments.length) count = int.parse(arguments[i]);
       case '-s' || '--seed':
         if (++i < arguments.length) seed = int.parse(arguments[i]);
+      case '--circle':
+        styleOverride = AvatarStyle.circle;
       case '--transparent':
-        transparent = true;
+        styleOverride = AvatarStyle.transparent;
       case '-h' || '--help':
         _printUsage();
         return;
@@ -79,8 +82,8 @@ Future<void> main(List<String> arguments) async {
 
   for (var n = 1; n <= count; n++) {
     final avatar = Avataaar.random(rng);
-    if (transparent) {
-      avatar.style = AvatarStyle.transparent;
+    if (styleOverride != null) {
+      avatar.style = styleOverride;
     }
 
     final svg = await avatar.toSvg(loadAsset: _fileAssetLoader);

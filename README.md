@@ -7,7 +7,8 @@ A Flutter widget that renders customizable [avataaars](https://getavataaars.com/
 
 | | | | | |
 |---|---|---|---|---|
-| ![avatar 1](https://raw.githubusercontent.com/bramp/avatar_builder/main/test/goldens/avatars/style_circle.png) | ![avatar 2](https://raw.githubusercontent.com/bramp/avatar_builder/main/test/goldens/avatars/top_longHairCurvy.png) | ![avatar 3](https://raw.githubusercontent.com/bramp/avatar_builder/main/test/goldens/avatars/top_shortHairShortCurly.png) | ![avatar 4](https://raw.githubusercontent.com/bramp/avatar_builder/main/test/goldens/avatars/top_longHairMiaWallace.png) | ![avatar 5](https://raw.githubusercontent.com/bramp/avatar_builder/main/test/goldens/avatars/top_longHairBun.png) |
+| ![avatar 1](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_1.svg) | ![avatar 2](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_2.svg) | ![avatar 3](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_3.svg) | ![avatar 4](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_4.svg) | ![avatar 5](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_5.svg) |
+| ![avatar 6](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_6.svg) | ![avatar 7](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_7.svg) | ![avatar 8](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_8.svg) | ![avatar 9](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_9.svg) | ![avatar 10](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_10.svg) |
 
 **[Live Demo](https://bramp.github.io/avatar_builder/)** · **[API Reference](https://pub.dev/documentation/avatar_builder/latest/)**
 
