@@ -28,7 +28,7 @@ Add `avatar_builder` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  avatar_builder: ^0.1.0
+  avatar_builder: ^0.2.0
 ```
 
 Then run:
