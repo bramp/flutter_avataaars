@@ -1,30 +1,91 @@
 // ignore_for_file: avoid_print // We use print for simple CLI output.
+//
+// Pure Dart CLI tool for generating random avatar SVGs.
+// Uses avatar_builder_core — no Flutter dependency.
+
 import 'dart:io';
+import 'dart:math';
 
-import 'package:avatar_builder/avatar_builder.dart';
+import 'package:avatar_builder_core/avatar_builder_core.dart';
 
-SvgCache _loadCacheFromDisk() {
-  const prefix = 'packages/avataaars/lib/assets';
-  const diskPrefix = 'lib/assets';
-  final map = <String, String>{};
+/// Assets directory relative to where this tool is run.
+const String _assetsDir = 'avatar_builder_core/lib/assets';
 
-  final dir = Directory(diskPrefix);
-  for (final entity in dir.listSync(recursive: true)) {
-    if (entity is File && entity.path.endsWith('.svgf')) {
-      final relative = entity.path.substring(diskPrefix.length + 1);
-      map['$prefix/$relative'] = entity.readAsStringSync();
-    }
-  }
-  return SvgCache.fromMap(map);
+/// An [AssetLoader] that reads from the local filesystem.
+Future<String> _fileAssetLoader(String key) async {
+  if (key.isEmpty) return '';
+  return File('$_assetsDir/$key').readAsString();
 }
 
-void main() async {
-  final cache = _loadCacheFromDisk();
-  final avatar = Avataaar.random();
+void _printUsage() {
+  print('Usage: dart run bin/generate.dart [options]');
+  print('');
+  print('Generate random avatar SVGs.');
+  print('');
+  print('Options:');
+  print('  -o, --output <path>   Output file path (default: avatar.svg)');
+  print('                        Use {n} placeholder for count > 1');
+  print('  -n, --count <int>     Number of avatars to generate (default: 1)');
+  print('  -s, --seed <int>      Random seed for reproducibility');
+  print('      --transparent     Use transparent background (no circle)');
+  print('  -h, --help            Show this help message');
+}
 
-  final svgStr = await avatar.toSvg(cache: cache);
+Future<void> main(List<String> arguments) async {
+  String output = 'avatar.svg';
+  int count = 1;
+  int? seed;
+  var transparent = false;
 
-  final file = File('random_avatar.svg');
-  await file.writeAsString(svgStr);
-  print('Generated SVG saved to ${file.absolute.path}');
+  for (var i = 0; i < arguments.length; i++) {
+    switch (arguments[i]) {
+      case '-o' || '--output':
+        if (++i < arguments.length) output = arguments[i];
+      case '-n' || '--count':
+        if (++i < arguments.length) count = int.parse(arguments[i]);
+      case '-s' || '--seed':
+        if (++i < arguments.length) seed = int.parse(arguments[i]);
+      case '--transparent':
+        transparent = true;
+      case '-h' || '--help':
+        _printUsage();
+        return;
+      default:
+        stderr.writeln('Unknown option: ${arguments[i]}');
+        _printUsage();
+        exitCode = 1;
+        return;
+    }
+  }
+
+  if (!Directory(_assetsDir).existsSync()) {
+    stderr.writeln('Error: $_assetsDir not found.');
+    stderr.writeln('Run this tool from the workspace root directory.');
+    exitCode = 1;
+    return;
+  }
+
+  // When generating multiple avatars, inject {n} if not present.
+  if (count > 1 && !output.contains('{n}')) {
+    final dot = output.lastIndexOf('.');
+    if (dot >= 0) {
+      output = '${output.substring(0, dot)}_{n}${output.substring(dot)}';
+    } else {
+      output = '${output}_{n}';
+    }
+  }
+
+  final rng = Random(seed);
+
+  for (var n = 1; n <= count; n++) {
+    final avatar = Avataaar.random(rng);
+    if (transparent) {
+      avatar.style = AvatarStyle.transparent;
+    }
+
+    final svg = await avatar.toSvg(loadAsset: _fileAssetLoader);
+    final path = output.replaceAll('{n}', '$n');
+    File(path).writeAsStringSync(svg);
+    print('Generated $path');
+  }
 }

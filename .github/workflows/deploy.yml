@@ -34,11 +34,14 @@ jobs:
         with:
           channel: "stable"
 
+      - name: Install dependencies
+        run: dart pub get
+
       - name: Build Web
         run: |
           COMMIT_HASH=$(git rev-parse --short HEAD)
           BUILD_DATE=$(date -u +"%Y-%m-%d %H:%M UTC")
-          cd example
+          cd avatar_builder/example
           flutter build web --release \
             --base-href "/flutter_avataaars/" \
             --dart-define=COMMIT_HASH=$COMMIT_HASH \
@@ -49,4 +52,4 @@ jobs:
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./example/build/web
+          publish_dir: ./avatar_builder/example/build/web

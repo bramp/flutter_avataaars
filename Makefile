@@ -1,4 +1,4 @@
-.PHONY: all format analyze test test-ci test-golden test-golden-ci fix clean run generate
+.PHONY: all format analyze test test-core test-flutter test-cli test-ci test-golden test-golden-ci fix clean run generate
 
 # Device to run on: chrome, macos, ios, android (default: chrome)
 DEVICE ?= chrome
@@ -8,38 +8,52 @@ all: format analyze test
 
 ## Run the example app (use DEVICE=macos, DEVICE=ios, etc.)
 run:
-	cd example && flutter run -d $(DEVICE)
+	cd avatar_builder/example && flutter run -d $(DEVICE)
 
 ## Format all Dart code
 format:
 	dart format .
 
-## Run the analyzer across package and example
+## Run the analyzer
 analyze:
-	flutter analyze
-	cd example && flutter analyze
+	cd avatar_builder_core && dart analyze
+	cd avatar_builder && flutter analyze
+	cd avatar_builder/example && flutter analyze
 
-## Run package tests (includes golden tests on macOS)
-test:
+## Run all tests
+test: test-core test-flutter test-cli
+
+## Run pure-Dart core tests
+test-core:
+	cd avatar_builder_core && dart test
+
+## Run Flutter widget/golden tests
+test-flutter:
 ifeq ($(shell uname), Darwin)
-	flutter test
+	cd avatar_builder && flutter test
 else
-	flutter test --exclude-tags mac
+	cd avatar_builder && flutter test --exclude-tags mac
 endif
+
+## Run CLI (bin/generate.dart) tests
+test-cli:
+	dart test test/generate_cli_test.dart
 
 ## Run tests for CI (excludes golden/mac tests, injects build info)
 test-ci:
-	flutter test --exclude-tags mac \
+	cd avatar_builder_core && dart test
+	cd avatar_builder && flutter test --exclude-tags mac \
 		--dart-define=COMMIT_HASH=$$(git rev-parse --short HEAD) \
 		--dart-define=BUILD_DATE="$$(date -u +'%Y-%m-%d %H:%M UTC')"
+	dart test test/generate_cli_test.dart
 
 ## Run golden tests (macOS only)
 test-golden:
-	flutter test --tags mac
+	cd avatar_builder && flutter test --tags mac
 
 ## Run golden tests for CI (macOS only), updating goldens
 test-golden-ci:
-	flutter test --tags mac
+	cd avatar_builder && flutter test --tags mac
 
 ## Apply auto-fixes
 fix:
@@ -47,11 +61,12 @@ fix:
 
 ## Delete build artifacts
 clean:
-	flutter clean
-	cd example && flutter clean
+	cd avatar_builder_core && rm -rf .dart_tool build
+	cd avatar_builder && flutter clean
+	cd avatar_builder/example && flutter clean
 
 ## Regenerate SVG data from React avataaars library
 generate:
 	cd avataaars-generator && NODE_PATH=./node_modules node ../tools/extract_svg_fragments.js
 	python3 tools/generate_svg_data.py
-	dart format lib/src/svg/svg_data.dart
+	dart format avatar_builder_core/lib/src/svg/svg_data.dart

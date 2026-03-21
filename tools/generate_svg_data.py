@@ -23,8 +23,8 @@ import tempfile
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 json_path = os.path.join(script_dir, 'svg_fragments.json')
-assets_dir = os.path.join(script_dir, '..', 'lib', 'assets')
-output_path = os.path.join(script_dir, '..', 'lib', 'src', 'svg', 'svg_data.dart')
+assets_dir = os.path.join(script_dir, '..', 'avatar_builder_core', 'lib', 'assets')
+output_path = os.path.join(script_dir, '..', 'avatar_builder_core', 'lib', 'src', 'svg', 'svg_data.dart')
 
 with open(json_path, 'r') as f:
     data = json.load(f)
@@ -81,13 +81,13 @@ def svgo_optimize(fragment):
     end = optimized.rfind('</svg>')
     if start > 0 and end > start:
         optimized = optimized[start:end]
-        
+
     # TODO: Add filters back when they are supported by flutter_svg.
     # Blocked on https://github.com/flutter/flutter/issues/158592
     # Strip <filter> tags and filter="..." attributes as they log unhandled elements
     optimized = re.sub(r'<filter.*?</filter>', '', optimized)
     optimized = re.sub(r'\s*filter="[^"]*"', '', optimized)
-    
+
     return optimized
 
 
@@ -274,7 +274,7 @@ print("\nGenerating svg_data.dart...")
 lines = []
 
 # Asset path prefix for Flutter's package asset resolution.
-_ASSET_PREFIX = 'packages/avataaars/lib/assets'
+_ASSET_PREFIX = 'packages/avatar_builder/lib/assets'
 
 # Header
 lines.append("// GENERATED FILE - DO NOT EDIT")

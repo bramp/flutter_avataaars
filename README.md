@@ -57,14 +57,14 @@ AvatarWidget(
   avatar: Avataaar(
     topType: TopType.shortHairShortFlat,
     accessoriesType: AccessoriesType.prescription01,
-    hairColor: HairColor.brown,
+    hairColor: HairColor.brown.color,
     facialHairType: FacialHairType.blank,
     clotheType: ClotheType.hoodie,
-    clotheColor: ClotheColor.blue01,
+    clotheColor: ClotheColor.blue01.color,
     eyeType: EyeType.defaultEye,
     eyebrowType: EyebrowType.defaultBrow,
     mouthType: MouthType.smile,
-    skinColor: SkinColor.light,
+    skinColor: SkinColor.light.color,
   ),
 )
 ```
@@ -100,10 +100,10 @@ final avatar = Avataaar(
   topType: TopType.shortHairShortFlat,
   eyeType: EyeType.happy,
   mouthType: MouthType.smile,
-  skinColor: SkinColor.light,
+  skinColor: SkinColor.light.color,
 );
 
-final svgString = await avatar.toSvg();
+final svgString = await avatar.toSvg(loadAsset: cache.load);
 // svgString contains a complete <svg>...</svg> document
 // with all colors applied.
 ```

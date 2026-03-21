@@ -7,4 +7,4 @@ include: package:very_good_analysis/analysis_options.yaml
 
 analyzer:
   exclude:
-    - lib/src/svg/svg_data.dart
+    - avatar_builder_core/lib/src/svg/svg_data.dart

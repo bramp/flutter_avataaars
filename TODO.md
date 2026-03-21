@@ -5,6 +5,8 @@
 - [x] Change the ColorMapper to take colors, not enums
 - [x] Improve the demo page (to add a random button)
 - [x] Add json serialisation for the avatar details
+- [ ] On the example, let's add a code example at the bottom
+- [ ] On the example, Let's link back to the github page, and explain the context of the project.
 
 ## Bugs
 
