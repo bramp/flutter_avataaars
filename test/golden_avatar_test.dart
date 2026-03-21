@@ -29,7 +29,7 @@ SvgCache _loadCacheFromDisk() {
 /// Each test varies one attribute from this baseline.
 final _base = Avataaar(
   topType: TopType.shortHairShortFlat,
-  clotheColor: ClotheColor.heather,
+  clotheColor: ClotheColor.heather.color,
 );
 
 /// Pump an [AvatarWidget] and match against a golden file.
@@ -133,7 +133,7 @@ void main() {
           cache,
           _base.copyWith(
             topType: TopType.longHairStraight,
-            hairColor: value,
+            hairColor: value.color,
           ),
           'hair_color_${value.name}',
         );
@@ -148,7 +148,7 @@ void main() {
         await _goldenTest(
           tester,
           cache,
-          _base.copyWith(topType: TopType.winterHat1, hatColor: value),
+          _base.copyWith(topType: TopType.winterHat1, hatColor: value.color),
           'hat_color_${value.name}',
         );
       });
@@ -178,7 +178,7 @@ void main() {
           cache,
           _base.copyWith(
             facialHairType: FacialHairType.beardMajestic,
-            facialHairColor: value,
+            facialHairColor: value.color,
           ),
           'facial_hair_color_${value.name}',
         );
@@ -207,7 +207,7 @@ void main() {
         await _goldenTest(
           tester,
           cache,
-          _base.copyWith(clotheColor: value),
+          _base.copyWith(clotheColor: value.color),
           'clothe_color_${value.name}',
         );
       });
@@ -280,7 +280,7 @@ void main() {
         await _goldenTest(
           tester,
           cache,
-          _base.copyWith(skinColor: value),
+          _base.copyWith(skinColor: value.color),
           'skin_${value.name}',
         );
       });

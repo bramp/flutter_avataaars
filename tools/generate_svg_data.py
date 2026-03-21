@@ -77,11 +77,17 @@ def svgo_optimize(fragment):
         if os.path.exists(tmp_out_path):
             os.unlink(tmp_out_path)
 
-    # Strip the <svg> wrapper we added
     start = optimized.find('>') + 1  # end of opening <svg ...>
     end = optimized.rfind('</svg>')
     if start > 0 and end > start:
-        return optimized[start:end]
+        optimized = optimized[start:end]
+        
+    # TODO: Add filters back when they are supported by flutter_svg.
+    # Blocked on https://github.com/flutter/flutter/issues/158592
+    # Strip <filter> tags and filter="..." attributes as they log unhandled elements
+    optimized = re.sub(r'<filter.*?</filter>', '', optimized)
+    optimized = re.sub(r'\s*filter="[^"]*"', '', optimized)
+    
     return optimized
 
 
@@ -275,8 +281,8 @@ lines.append("// GENERATED FILE - DO NOT EDIT")
 lines.append("// Generated from avataaars SVG components via React SSR extraction.")
 lines.append("// SVG fragments are stored as asset files under lib/assets/.")
 lines.append("")
-lines.append("import 'package:avataaars/src/models/avatar_style.dart';")
-lines.append("import 'package:avataaars/src/svg/svg_cache.dart';")
+lines.append("import 'package:avatar_builder/src/models/avatar_style.dart';")
+lines.append("import 'package:avatar_builder/src/svg/svg_cache.dart';")
 lines.append("")
 
 # Sentinel constants
@@ -336,68 +342,6 @@ gen_asset_path_switch("_accessoryAsset", "AccessoriesType", "accessories", "acce
 gen_asset_path_switch("_facialHairAsset", "FacialHairType", "facialHair", "facial_hair")
 gen_asset_path_switch("_graphicClothingAsset", "GraphicType", "graphicClothing", "graphic_clothing")
 
-
-
-# ---------------------------------------------------------------------------
-# Color lookup functions
-# ---------------------------------------------------------------------------
-
-def gen_color_func(func_name, enum_type, color_map, dart_names):
-    lines.append(f"String {func_name}({enum_type} color) {{")
-    lines.append("  switch (color) {")
-    for name, hex_val in color_map.items():
-        dart_name = dart_names.get(name)
-        if dart_name is None:
-            continue
-        lines.append(f"    case {enum_type}.{dart_name}:")
-        lines.append(f"      return '{hex_val}';")
-    lines.append("  }")
-    lines.append("}")
-    lines.append("")
-
-
-gen_color_func("getSkinColorHex", "SkinColor", data['skinColorMap'],
-    {'Tanned': 'tanned', 'Yellow': 'yellow', 'Pale': 'pale', 'Light': 'light',
-     'Brown': 'brown', 'DarkBrown': 'darkBrown', 'Black': 'black'})
-
-# Hair color
-hair_color_dart = {
-    'auburn': '#A55728', 'black': '#2C1B18', 'blonde': '#B58143',
-    'blondeGolden': '#D6B370', 'brown': '#724133', 'brownDark': '#4A312C',
-    'pastelPink': '#F59797', 'blue': '#000FDB', 'platinum': '#ECDCBF',
-    'red': '#C93305', 'silverGray': '#E8E1E1',
-}
-lines.append("String getHairColorHex(HairColor color) {")
-lines.append("  switch (color) {")
-for dart_name, hex_val in hair_color_dart.items():
-    lines.append(f"    case HairColor.{dart_name}:")
-    lines.append(f"      return '{hex_val}';")
-lines.append("  }")
-lines.append("}")
-lines.append("")
-
-gen_color_func("getClotheColorHex", "ClotheColor", data['clotheColorMap'],
-    {'Black': 'black', 'Blue01': 'blue01', 'Blue02': 'blue02', 'Blue03': 'blue03',
-     'Gray01': 'gray01', 'Gray02': 'gray02', 'Heather': 'heather',
-     'PastelBlue': 'pastelBlue', 'PastelGreen': 'pastelGreen',
-     'PastelOrange': 'pastelOrange', 'PastelRed': 'pastelRed',
-     'PastelYellow': 'pastelYellow', 'Pink': 'pink', 'Red': 'red', 'White': 'white'})
-
-gen_color_func("getHatColorHex", "HatColor", data.get('hatColorMap', data['clotheColorMap']),
-    {'Black': 'black', 'Blue01': 'blue01', 'Blue02': 'blue02', 'Blue03': 'blue03',
-     'Gray01': 'gray01', 'Gray02': 'gray02', 'Heather': 'heather',
-     'PastelBlue': 'pastelBlue', 'PastelGreen': 'pastelGreen',
-     'PastelOrange': 'pastelOrange', 'PastelRed': 'pastelRed',
-     'PastelYellow': 'pastelYellow', 'Pink': 'pink', 'Red': 'red', 'White': 'white'})
-
-# Facial hair color uses same hex values as hair color, but with fewer options
-fh_color_map = {}
-for name in ['Auburn', 'Black', 'Blonde', 'BlondeGolden', 'Brown', 'BrownDark', 'Platinum', 'Red']:
-    fh_color_map[name] = data['hairColorMap'].get(name, '#000000')
-gen_color_func("getFacialHairColorHex", "FacialHairColor", fh_color_map,
-    {'Auburn': 'auburn', 'Black': 'black', 'Blonde': 'blonde',
-     'BlondeGolden': 'blondeGolden', 'Brown': 'brown', 'BrownDark': 'brownDark',
-     'Platinum': 'platinum', 'Red': 'red'})
 
 # ---------------------------------------------------------------------------
 # Builder function

@@ -33,13 +33,13 @@ class AvatarForm extends StatelessWidget {
           ),
 
           // -- Skin --
-          _buildColorDropdown<SkinColor>(
+          _buildColorDropdown<SkinColor?>(
             label: 'Skin',
-            value: avatar.skinColor,
+            value: avatar.skinColorEnum,
             items: SkinColor.values,
-            labelOf: (v) => v.label,
-            colorOf: (v) => v.color,
-            onChanged: (v) => onChanged(avatar.copyWith(skinColor: v)),
+            labelOf: (v) => v?.label ?? 'Custom',
+            colorOf: (v) => v!.color,
+            onChanged: (v) => onChanged(avatar.copyWith(skinColor: v?.color)),
           ),
 
           // -- Top (hair / hat) --
@@ -50,22 +50,22 @@ class AvatarForm extends StatelessWidget {
             labelOf: (v) => v.label,
             onChanged: (v) => onChanged(avatar.copyWith(topType: v)),
           ),
-          _buildColorDropdown<HairColor>(
+          _buildColorDropdown<HairColor?>(
             label: 'Hair Color',
-            value: avatar.hairColor,
+            value: avatar.hairColorEnum,
             items: HairColor.values,
-            labelOf: (v) => v.label,
-            colorOf: (v) => v.color,
-            onChanged: (v) => onChanged(avatar.copyWith(hairColor: v)),
+            labelOf: (v) => v?.label ?? 'Custom',
+            colorOf: (v) => v!.color,
+            onChanged: (v) => onChanged(avatar.copyWith(hairColor: v?.color)),
             enabled: avatar.topType.hasHair,
           ),
-          _buildColorDropdown<HatColor>(
+          _buildColorDropdown<HatColor?>(
             label: 'Hat Color',
-            value: avatar.hatColor,
+            value: avatar.hatColorEnum,
             items: HatColor.values,
-            labelOf: (v) => v.label,
-            colorOf: (v) => v.color,
-            onChanged: (v) => onChanged(avatar.copyWith(hatColor: v)),
+            labelOf: (v) => v?.label ?? 'Custom',
+            colorOf: (v) => v!.color,
+            onChanged: (v) => onChanged(avatar.copyWith(hatColor: v?.color)),
             enabled: avatar.topType.hasHat,
           ),
 
@@ -109,13 +109,14 @@ class AvatarForm extends StatelessWidget {
             labelOf: (v) => v.label,
             onChanged: (v) => onChanged(avatar.copyWith(facialHairType: v)),
           ),
-          _buildColorDropdown<FacialHairColor>(
+          _buildColorDropdown<FacialHairColor?>(
             label: 'Facial Hair Color',
-            value: avatar.facialHairColor,
+            value: avatar.facialHairColorEnum,
             items: FacialHairColor.values,
-            labelOf: (v) => v.label,
-            colorOf: (v) => v.color,
-            onChanged: (v) => onChanged(avatar.copyWith(facialHairColor: v)),
+            labelOf: (v) => v?.label ?? 'Custom',
+            colorOf: (v) => v!.color,
+            onChanged: (v) =>
+                onChanged(avatar.copyWith(facialHairColor: v?.color)),
             enabled: avatar.facialHairType.hasFacialHair,
           ),
 
@@ -127,13 +128,13 @@ class AvatarForm extends StatelessWidget {
             labelOf: (v) => v.label,
             onChanged: (v) => onChanged(avatar.copyWith(clotheType: v)),
           ),
-          _buildColorDropdown<ClotheColor>(
+          _buildColorDropdown<ClotheColor?>(
             label: 'Clothes Color',
-            value: avatar.clotheColor,
+            value: avatar.clotheColorEnum,
             items: ClotheColor.values,
-            labelOf: (v) => v.label,
-            colorOf: (v) => v.color,
-            onChanged: (v) => onChanged(avatar.copyWith(clotheColor: v)),
+            labelOf: (v) => v?.label ?? 'Custom',
+            colorOf: (v) => v!.color,
+            onChanged: (v) => onChanged(avatar.copyWith(clotheColor: v?.color)),
             enabled: avatar.clotheType.hasClotheColor,
           ),
           _buildDropdown<GraphicType>(

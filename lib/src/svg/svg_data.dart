@@ -270,143 +270,6 @@ String _graphicClothingAsset(GraphicType type) {
   }
 }
 
-String getSkinColorHex(SkinColor color) {
-  switch (color) {
-    case SkinColor.tanned:
-      return '#FD9841';
-    case SkinColor.yellow:
-      return '#F8D25C';
-    case SkinColor.pale:
-      return '#FFDBB4';
-    case SkinColor.light:
-      return '#EDB98A';
-    case SkinColor.brown:
-      return '#D08B5B';
-    case SkinColor.darkBrown:
-      return '#AE5D29';
-    case SkinColor.black:
-      return '#614335';
-  }
-}
-
-String getHairColorHex(HairColor color) {
-  switch (color) {
-    case HairColor.auburn:
-      return '#A55728';
-    case HairColor.black:
-      return '#2C1B18';
-    case HairColor.blonde:
-      return '#B58143';
-    case HairColor.blondeGolden:
-      return '#D6B370';
-    case HairColor.brown:
-      return '#724133';
-    case HairColor.brownDark:
-      return '#4A312C';
-    case HairColor.pastelPink:
-      return '#F59797';
-    case HairColor.blue:
-      return '#000FDB';
-    case HairColor.platinum:
-      return '#ECDCBF';
-    case HairColor.red:
-      return '#C93305';
-    case HairColor.silverGray:
-      return '#E8E1E1';
-  }
-}
-
-String getClotheColorHex(ClotheColor color) {
-  switch (color) {
-    case ClotheColor.black:
-      return '#262E33';
-    case ClotheColor.blue01:
-      return '#65C9FF';
-    case ClotheColor.blue02:
-      return '#5199E4';
-    case ClotheColor.blue03:
-      return '#25557C';
-    case ClotheColor.gray01:
-      return '#929598';
-    case ClotheColor.gray02:
-      return '#E6E6E6';
-    case ClotheColor.heather:
-      return '#3C4F5C';
-    case ClotheColor.pastelBlue:
-      return '#B1E2FF';
-    case ClotheColor.pastelGreen:
-      return '#A7FFC4';
-    case ClotheColor.pastelOrange:
-      return '#FFDEB5';
-    case ClotheColor.pastelRed:
-      return '#FFAFB9';
-    case ClotheColor.pastelYellow:
-      return '#FFFFB1';
-    case ClotheColor.pink:
-      return '#FF488E';
-    case ClotheColor.red:
-      return '#FF5C5C';
-    case ClotheColor.white:
-      return '#FFFFFF';
-  }
-}
-
-String getHatColorHex(HatColor color) {
-  switch (color) {
-    case HatColor.black:
-      return '#262E33';
-    case HatColor.blue01:
-      return '#65C9FF';
-    case HatColor.blue02:
-      return '#5199E4';
-    case HatColor.blue03:
-      return '#25557C';
-    case HatColor.gray01:
-      return '#929598';
-    case HatColor.gray02:
-      return '#E6E6E6';
-    case HatColor.heather:
-      return '#3C4F5C';
-    case HatColor.pastelBlue:
-      return '#B1E2FF';
-    case HatColor.pastelGreen:
-      return '#A7FFC4';
-    case HatColor.pastelOrange:
-      return '#FFDEB5';
-    case HatColor.pastelRed:
-      return '#FFAFB9';
-    case HatColor.pastelYellow:
-      return '#FFFFB1';
-    case HatColor.pink:
-      return '#FF488E';
-    case HatColor.red:
-      return '#FF5C5C';
-    case HatColor.white:
-      return '#FFFFFF';
-  }
-}
-
-String getFacialHairColorHex(FacialHairColor color) {
-  switch (color) {
-    case FacialHairColor.auburn:
-      return '#A55728';
-    case FacialHairColor.black:
-      return '#2C1B18';
-    case FacialHairColor.blonde:
-      return '#B58143';
-    case FacialHairColor.blondeGolden:
-      return '#D6B370';
-    case FacialHairColor.brown:
-      return '#724133';
-    case FacialHairColor.brownDark:
-      return '#4A312C';
-    case FacialHairColor.platinum:
-      return '#E8E1E1';
-    case FacialHairColor.red:
-      return '#C93305';
-  }
-}
-
 /// Build a complete avatar SVG string from cached asset fragments.
 ///
 /// The returned SVG uses sentinel colors for skin, hair, hat, clothing,
@@ -457,8 +320,7 @@ Future<String> buildAvatarSvg({
   if (accSvg.isNotEmpty || fhSvg.isNotEmpty) {
     final lastClose = topSvg.lastIndexOf('</g>');
     if (lastClose >= 0) {
-      topSvg =
-          '${topSvg.substring(0, lastClose)}$accSvg$fhSvg${topSvg.substring(lastClose)}';
+      topSvg = '${topSvg.substring(0, lastClose)}$accSvg$fhSvg${topSvg.substring(lastClose)}';
     }
   }
 
@@ -479,23 +341,23 @@ Future<String> buildAvatarSvg({
   final clipMaskRef = circle ? ' mask="url(#mask-clip)"' : '';
 
   return '<svg viewBox="0 0 264 280" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'
-      '<defs>$sharedDefs</defs>'
-      '<g id="Avataaar" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">'
-      '<g transform="translate(0, 0)">'
-      '$circleBackground'
-      '$clipMask'
-      '<g$clipMaskRef>'
-      '$bodyGroup'
-      '$clothingSvg'
-      '<g transform="translate(76, 82)" fill="#000000">'
-      '$mouthSvg'
-      '$noseGroup'
-      '$eyeSvg'
-      '$eyebrowSvg'
-      '</g>'
-      '$topSvg'
-      '</g>'
-      '</g>'
-      '</g>'
-      '</svg>';
+    '<defs>$sharedDefs</defs>'
+    '<g id="Avataaar" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">'
+    '<g transform="translate(0, 0)">'
+    '$circleBackground'
+    '$clipMask'
+    '<g$clipMaskRef>'
+    '$bodyGroup'
+    '$clothingSvg'
+    '<g transform="translate(76, 82)" fill="#000000">'
+    '$mouthSvg'
+    '$noseGroup'
+    '$eyeSvg'
+    '$eyebrowSvg'
+    '</g>'
+    '$topSvg'
+    '</g>'
+    '</g>'
+    '</g>'
+    '</svg>';
 }

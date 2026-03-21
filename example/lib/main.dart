@@ -1,5 +1,5 @@
-import 'package:avatar_builder/avatar_builder.dart';
 import 'package:avataaars_example/avatar_form.dart';
+import 'package:avatar_builder/avatar_builder.dart';
 import 'package:flutter/material.dart';
 
 void main() {

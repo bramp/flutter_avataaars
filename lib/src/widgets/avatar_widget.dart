@@ -78,7 +78,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
             child: widget.placeholder,
           );
         }
-        final colorMapper = AvatarColorMapper.fromEnums(
+        final colorMapper = AvatarColorMapper(
           skinColor: widget.avatar.skinColor,
           hairColor: widget.avatar.hairColor,
           hatColor: widget.avatar.hatColor,

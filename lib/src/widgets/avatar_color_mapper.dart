@@ -1,5 +1,3 @@
-import 'package:avatar_builder/src/models/avatar_style.dart';
-import 'package:avatar_builder/src/svg/svg_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -35,22 +33,6 @@ class AvatarColorMapper extends ColorMapper {
     required this.facialHairColor,
   });
 
-  /// Creates a mapper from avatar style enums.
-  factory AvatarColorMapper.fromEnums({
-    required SkinColor skinColor,
-    required HairColor hairColor,
-    required HatColor hatColor,
-    required ClotheColor clotheColor,
-    required FacialHairColor facialHairColor,
-  }) {
-    return AvatarColorMapper(
-      skinColor: _parseHex(getSkinColorHex(skinColor)),
-      hairColor: _parseHex(getHairColorHex(hairColor)),
-      hatColor: _parseHex(getHatColorHex(hatColor)),
-      clotheColor: _parseHex(getClotheColorHex(clotheColor)),
-      facialHairColor: _parseHex(getFacialHairColorHex(facialHairColor)),
-    );
-  }
 
   /// Applies this color mapping directly to an SVG string.
   ///
@@ -140,8 +122,4 @@ class AvatarColorMapper extends ColorMapper {
     return Color.from(alpha: color.a, red: r, green: g, blue: b);
   }
 
-  static Color _parseHex(String hex) {
-    final value = int.parse(hex.substring(1), radix: 16);
-    return Color(0xFF000000 | value);
-  }
 }
