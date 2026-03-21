@@ -8,7 +8,7 @@ A pure Dart library for building [avataaars](https://getavataaars.com/)-style ca
 
 - **Pure Dart** — no Flutter or `dart:ui` dependency
 - **140+ SVG fragments** composable into millions of unique avatars
-- **Pluggable asset loading** via `AssetLoader` typedef — use filesystem, HTTP, or any custom source
+- **Pluggable asset loading** via `AssetLoader` typedef — use the included `FileAssetLoader` for `dart:io`, or provide your own
 - **Random avatar generation** via `Avataaar.random()`
 - **JSON serialisation** with `toJson()` / `fromJson()`
 - **Full customisation**: hair, eyes, eyebrows, mouth, facial hair, clothing, accessories, skin color
@@ -17,22 +17,22 @@ A pure Dart library for building [avataaars](https://getavataaars.com/)-style ca
 
 ```yaml
 dependencies:
-  avatar_builder_core: ^0.2.0
+  avatar_builder_core: ^0.3.0
 ```
 
 ## Usage
 
-```dart
-import 'dart:io';
-import 'package:avatar_builder_core/avatar_builder_core.dart';
+For programs with `dart:io` available (CLI tools, servers, scripts), import
+`FileAssetLoader` to load the built-in SVG assets from disk automatically:
 
-// Provide an AssetLoader that reads SVG fragments from disk.
-Future<String> loadAsset(String key) async {
-  if (key.isEmpty) return '';
-  return File('path/to/assets/$key').readAsString();
-}
+```dart
+import 'package:avatar_builder_core/avatar_builder_core.dart';
+import 'package:avatar_builder_core/file_asset_loader.dart';
 
 void main() async {
+  // Resolve the package's built-in asset directory automatically.
+  final loader = await FileAssetLoader.defaultForPackage();
+
   // Create a specific avatar
   final avatar = Avataaar(
     topType: TopType.shortHairShortFlat,
@@ -45,7 +45,7 @@ void main() async {
   final random = Avataaar.random();
 
   // Render to SVG string
-  final svg = await avatar.toSvg(loadAsset: loadAsset);
+  final svg = await avatar.toSvg(loadAsset: loader.load);
   File('avatar.svg').writeAsStringSync(svg);
 
   // Serialise to/from JSON
@@ -54,7 +54,15 @@ void main() async {
 }
 ```
 
-> **For Flutter apps**, use the [`avatar_builder`](https://pub.dev/packages/avatar_builder) package which provides `AvatarWidget` and built-in asset loading.
+You can also point `FileAssetLoader` at an explicit directory, or implement
+your own `AssetLoader` function for custom sources (HTTP, in-memory, etc.):
+
+```dart
+final loader = FileAssetLoader('/path/to/assets');
+final svg = await avatar.toSvg(loadAsset: loader.load);
+```
+
+> **For Flutter apps**, use the [`avatar_builder`](https://pub.dev/packages/avatar_builder) package which provides `AvatarWidget` and built-in asset loading via `SvgCache`.
 
 ## Customisation options
 

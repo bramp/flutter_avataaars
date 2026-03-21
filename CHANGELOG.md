@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0
+
+- Add `FileAssetLoader` to `avatar_builder_core` for easy asset loading in
+  `dart:io` environments. Available via a separate import:
+  `import 'package:avatar_builder_core/file_asset_loader.dart'`.
+- Update READMEs with improved usage examples.
+
 ## 0.2.0
 
 - **Breaking**: Split into `avatar_builder_core` (pure Dart, no Flutter dependency) and `avatar_builder` (Flutter widgets) packages in a Dart workspace monorepo.
@@ -23,3 +30,4 @@
 - `SvgCache` for efficient LRU caching of SVG asset fragments.
 - 140+ optimized SVG fragments covering all avatar component variations.
 - Circle and transparent background styles via `AvatarStyle`.
+sparent background styles via `AvatarStyle`.

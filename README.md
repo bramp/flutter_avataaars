@@ -28,7 +28,7 @@ Add `avatar_builder` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  avatar_builder: ^0.2.0
+  avatar_builder: ^0.3.0
 ```
 
 Then run:
@@ -104,10 +104,12 @@ final avatar = Avataaar(
   skinColor: SkinColor.light.color,
 );
 
-final svgString = await avatar.toSvg(loadAsset: cache.load);
+final svgString = await avatar.toSvg(loadAsset: SvgCache.instance.load);
 // svgString contains a complete <svg>...</svg> document
 // with all colors applied.
 ```
+
+> **For pure-Dart** (non-Flutter) use, see [`avatar_builder_core`](https://pub.dev/packages/avatar_builder_core) which includes a `FileAssetLoader` for `dart:io` environments.
 
 ## Customization options
 
