@@ -7,11 +7,22 @@ A Flutter widget that renders customizable [avataaars](https://getavataaars.com/
 [![Dart Analysis](https://github.com/bramp/svg_path/actions/workflows/dart.yml/badge.svg)](https://github.com/bramp/avatar_builder/actions/workflows/test.yml)
 [![License](https://img.shields.io/github/license/bramp/avatar_builder)](https://github.com/bramp/avatar_builder/blob/main/LICENSE)
 
-
-| | | | | |
-|---|---|---|---|---|
-| ![avatar 1](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_1.svg?sanitize=true) | ![avatar 2](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_2.svg?sanitize=true) | ![avatar 3](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_3.svg?sanitize=true) | ![avatar 4](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_4.svg?sanitize=true) | ![avatar 5](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_5.svg?sanitize=true) |
-| ![avatar 6](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_6.svg?sanitize=true) | ![avatar 7](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_7.svg?sanitize=true) | ![avatar 8](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_8.svg?sanitize=true) | ![avatar 9](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_9.svg?sanitize=true) | ![avatar 10](https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_10.svg?sanitize=true) |
+<table>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_1.svg" alt="avatar 1" width="120"></td>
+    <td><img src="https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_2.svg" alt="avatar 2" width="120"></td>
+    <td><img src="https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_3.svg" alt="avatar 3" width="120"></td>
+    <td><img src="https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_4.svg" alt="avatar 4" width="120"></td>
+    <td><img src="https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_5.svg" alt="avatar 5" width="120"></td>
+  </tr>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_6.svg" alt="avatar 6" width="120"></td>
+    <td><img src="https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_7.svg" alt="avatar 7" width="120"></td>
+    <td><img src="https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_8.svg" alt="avatar 8" width="120"></td>
+    <td><img src="https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_9.svg" alt="avatar 9" width="120"></td>
+    <td><img src="https://raw.githubusercontent.com/bramp/avatar_builder/main/assets/samples/sample_10.svg" alt="avatar 10" width="120"></td>
+  </tr>
+</table>
 
 **[Live Demo](https://bramp.github.io/avatar_builder/)** · **[API Reference](https://pub.dev/documentation/avatar_builder/latest/)**
 
