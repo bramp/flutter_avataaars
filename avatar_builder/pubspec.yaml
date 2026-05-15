@@ -21,7 +21,7 @@ dependencies:
   avatar_builder_core: ^0.3.0
   flutter:
     sdk: flutter
-  flutter_svg: ^2.2.4
+  flutter_svg: ^2.3.0
 
 dev_dependencies:
   flutter_test:
