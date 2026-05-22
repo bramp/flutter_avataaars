@@ -16,7 +16,7 @@ environment:
 resolution: workspace
 
 dependencies:
-  meta: ^1.17.0
+  meta: ^1.18.0
 
 flutter:
   assets:
